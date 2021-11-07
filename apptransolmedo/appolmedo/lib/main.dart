@@ -23,7 +23,8 @@ class AppOlmedo extends StatelessWidget {
           '/choferPages': (BuildContext context) => new choferes(),
           '/LoginPage': (BuildContext context) => LoginPage(),
           '/selectCamion': (BuildContext context) => new selectCamion(),
-          '/confirmacionEntregas': (BuildContext context) => new confirmacionEntregas(),
+          '/confirmacionEntregas': (BuildContext context) =>
+              new confirmacionEntregas(),
         });
   }
 }
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
         //Fondo
         child: Container(
           decoration: new BoxDecoration(
-            color: Colors.orange[700],
+            color: Colors.orange[600],
             //image: new DecorationImage(
             //image:
             //    new AssetImage("assets/images/viper.jpg"), //imagen de fondo
