@@ -1,16 +1,16 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:appolmedo/pages/choferPages.dart';
+import 'package:appolmedo/pages/chofer_pages.dart';
 
-class confirmacionEntregas extends StatefulWidget {
-  confirmacionEntregas({Key? key}) : super(key: key);
+class ConfirmacionEntregas extends StatefulWidget {
+  ConfirmacionEntregas({Key? key}) : super(key: key);
 
   @override
-  _confirmacionEntregasState createState() => _confirmacionEntregasState();
+  _ConfirmacionEntregasState createState() => _ConfirmacionEntregasState();
 }
 
-class _confirmacionEntregasState extends State<confirmacionEntregas> {
+class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   double opacidad = 1.0, opacidad2 = 1.0, opacidad3 = 1.0;
 
   var estado = ["Entregado", "Parcialmente Entregado", "No entregado"];
@@ -184,7 +184,7 @@ class _confirmacionEntregasState extends State<confirmacionEntregas> {
               new MaterialButton(
                 onPressed: () {
                   Route route =
-                      MaterialPageRoute(builder: (contex) => choferes());
+                      MaterialPageRoute(builder: (contex) => Choferes());
                   Navigator.push(context, route);
                 },
                 height: 40,
@@ -204,14 +204,14 @@ class _confirmacionEntregasState extends State<confirmacionEntregas> {
   }
 }
 
-class imagenGuia extends StatefulWidget {
-  imagenGuia({Key? key}) : super(key: key);
+class ImagenGuia extends StatefulWidget {
+  ImagenGuia({Key? key}) : super(key: key);
 
   @override
-  _imagenGuiaState createState() => _imagenGuiaState();
+  _ImagenGuiaState createState() => _ImagenGuiaState();
 }
 
-class _imagenGuiaState extends State<imagenGuia> {
+class _ImagenGuiaState extends State<ImagenGuia> {
   @override
   Widget build(BuildContext context) {
     return Container();

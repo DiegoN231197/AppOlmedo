@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:appolmedo/pages/selectCamion.dart';
-import 'package:appolmedo/pages/confirmacionEntregas.dart';
+import 'package:appolmedo/pages/confirmacion_entregas.dart';
 
 //Clase que se encarga de la vista o página del chofer, en donde tendrá su menu y funciones
 
-class choferes extends StatelessWidget {
+class Choferes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +58,7 @@ class choferes extends StatelessWidget {
                 color: Colors.orange[600],
                 onPressed: () {
                   Route route =
-                      MaterialPageRoute(builder: (contex) => selectCamion());
+                      MaterialPageRoute(builder: (contex) => SelectCamion());
                   Navigator.push(context, route);
                 },
                 splashColor: Colors.blue,
@@ -75,7 +75,7 @@ class choferes extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contex) => confirmacionEntregas())),
+                          builder: (contex) => ConfirmacionEntregas())),
                 },
                 splashColor: Colors.blue,
               ),
