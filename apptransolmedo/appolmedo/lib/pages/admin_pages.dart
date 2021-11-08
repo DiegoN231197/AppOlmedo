@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //Clase que se encarga de la vista o página del administrador, en donde tendrá su menu y funciones
-class administrador extends StatelessWidget {
+class Administrador extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

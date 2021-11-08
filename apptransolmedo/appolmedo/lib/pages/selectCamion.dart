@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:appolmedo/pages/choferPages.dart';
+import 'package:appolmedo/pages/chofer_pages.dart';
 
-class selectCamion extends StatefulWidget {
+class SelectCamion extends StatefulWidget {
   @override
-  _selectCamionState createState() => _selectCamionState();
+  _SelectCamionState createState() => _SelectCamionState();
 }
 
-class _selectCamionState extends State<selectCamion> {
-  @override
+class _SelectCamionState extends State<SelectCamion> {
   //datos para usar en la lista desplegable de patente de camiones
   var camiones = ['camion1', 'camion 2', 'camion 3'];
   String datolista = 'Patente camión';
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
@@ -20,8 +20,9 @@ class _selectCamionState extends State<selectCamion> {
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          //mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             const SizedBox(height: 20),
             new Text(
@@ -39,29 +40,53 @@ class _selectCamionState extends State<selectCamion> {
               color: Colors.blue[700],
               elevation: 10.0,
               child: SizedBox(
-                height: 130,
+                height: 160,
                 width: 250,
-                child: Center(
-                  child: Row(
-                    children: <Widget>[
-                      DropdownButton(
-                        elevation: 30,
-                        iconSize: 30,
-                        items: camiones.map((String a) {
-                          //camiones es declarada mas arriba como lista de strings, se declara como map, para utilizarlo, y luego se utiliza la variable a, para que al desplegar la lista arroje los datos que se encuentran en camiones
-                          return DropdownMenuItem(
-                              value: a,
-                              child: Text(
-                                  a)); //se retornan los datos contenidos en la lista antes declarada
-                        }).toList(),
-                        onChanged: (datonuevo) => {
-                          setState(() {
-                            datolista = datonuevo.toString();
-                          })
-                        },
-                        hint: Text(datolista),
+                child: Padding(
+                  padding: EdgeInsets.all(2),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    alignment: Alignment.center,
+                    child: DropdownButtonFormField(
+                      elevation: 50,
+                      iconSize: 30,
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                    ],
+                      items: camiones.map((String a) {
+                        //camiones es declarada mas arriba como lista de strings, se declara como map, para utilizarlo, y luego se utiliza la variable a, para que al desplegar la lista arroje los datos que se encuentran en camiones
+                        return DropdownMenuItem(
+                          value: a,
+                          child: Text(
+                            a,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ); //se retornan los datos contenidos en la lista antes declarada
+                      }).toList(),
+                      onChanged: (datonuevo) => {
+                        setState(
+                          () {
+                            datolista = datonuevo.toString();
+                          },
+                        ),
+                      },
+                      hint: Text(
+                        datolista,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -72,7 +97,7 @@ class _selectCamionState extends State<selectCamion> {
             //boton continuar
             new MaterialButton(
               onPressed: () {
-                Navigator.push(context, datosRuta());
+                Navigator.push(context, DatosRuta());
               },
               height: 50,
               minWidth: 300,
@@ -81,7 +106,7 @@ class _selectCamionState extends State<selectCamion> {
               color: Colors.orange[600],
               splashColor: Colors.blue,
             ),
-            const SizedBox(height: 90),
+            const SizedBox(height: 50),
             Image.asset('assets/images/logoblanco.png'),
           ],
         ),
@@ -91,9 +116,9 @@ class _selectCamionState extends State<selectCamion> {
 }
 
 //Pantalla para llenar datos sobre la ruta y guia que se va a entregar
-class datosRuta extends MaterialPageRoute<String> {
+class DatosRuta extends MaterialPageRoute<String> {
   bool numerovalido = true;
-  datosRuta()
+  DatosRuta()
       : super(builder: (BuildContext context) {
           return Scaffold(
             appBar: new AppBar(
@@ -231,7 +256,7 @@ class datosRuta extends MaterialPageRoute<String> {
                     new MaterialButton(
                       onPressed: () {
                         Route route =
-                            MaterialPageRoute(builder: (contex) => choferes());
+                            MaterialPageRoute(builder: (contex) => Choferes());
                         Navigator.push(context, route);
                       },
                       height: 40,

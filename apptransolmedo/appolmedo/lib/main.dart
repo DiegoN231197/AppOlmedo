@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:appolmedo/pages/adminPages.dart';
-import 'package:appolmedo/pages/choferPages.dart';
+import 'package:appolmedo/pages/admin_pages.dart';
+import 'package:appolmedo/pages/chofer_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:appolmedo/pages/selectCamion.dart';
-import 'package:appolmedo/pages/confirmacionEntregas.dart';
+import 'package:appolmedo/pages/confirmacion_entregas.dart';
 
 void main() => runApp(AppOlmedo());
 
@@ -19,11 +19,12 @@ class AppOlmedo extends StatelessWidget {
         title: 'App TransOlemdo',
         home: LoginPage(),
         routes: <String, WidgetBuilder>{
-          '/adminsPages': (BuildContext context) => new administrador(),
-          '/choferPages': (BuildContext context) => new choferes(),
+          '/adminsPages': (BuildContext context) => new Administrador(),
+          '/choferPages': (BuildContext context) => new Choferes(),
           '/LoginPage': (BuildContext context) => LoginPage(),
-          '/selectCamion': (BuildContext context) => new selectCamion(),
-          '/confirmacionEntregas': (BuildContext context) => new confirmacionEntregas(),
+          '/selectCamion': (BuildContext context) => new SelectCamion(),
+          '/confirmacionEntregas': (BuildContext context) =>
+              new ConfirmacionEntregas(),
         });
   }
 }
@@ -40,7 +41,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerUser = new TextEditingController();
   TextEditingController controllerPass = new TextEditingController();
-
+  bool _showPassword = false;
   String mensaje = '';
 
   Future<List> login() async {
@@ -80,60 +81,66 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           decoration: new BoxDecoration(
             color: Colors.orange[700],
-            //image: new DecorationImage(
-            //image:
-            //    new AssetImage("assets/images/viper.jpg"), //imagen de fondo
-            //fit: BoxFit.cover),
           ),
           //Propiedades imagen de arriba
           child: Column(
             children: <Widget>[
+              SizedBox(height: 50),
               new Container(
-                  margin: EdgeInsets.only(top: 140),
-                  padding: EdgeInsets.only(top: 0),
-                  child: new CircleAvatar(
-                    backgroundColor: Colors.orange[700],
-                    child: new Image(
-                      width: 700,
-                      height: 700,
-                      image: new AssetImage('assets/images/transo.png'),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Image.asset(
+                      "assets/images/Logo.png",
+                      height: 250,
                     ),
-                  ),
-                  //Propiedades de espacio de texto usuario
-                  width: 170.0,
-                  height: 170.0,
-                  decoration: BoxDecoration(shape: BoxShape.circle)),
+                  ],
+                ),
+                //Propiedades de espacio de texto usuario
+              ),
               Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.only(top: 90),
+                padding: EdgeInsets.only(top: 50),
                 child: Column(
                   children: <Widget>[
                     Container(
-                        width: MediaQuery.of(context).size.width / 1.15,
-                        padding: EdgeInsets.only(
-                            top: 0.2, left: 15, right: 15, bottom: 6),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(color: Colors.black, blurRadius: 5)
-                            ]),
-                        child: TextFormField(
-                            controller: controllerUser,
-                            decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.account_circle,
-                                  color: Colors.orange,
-                                ),
-                                hintText: "Usuario"))),
+                      width: MediaQuery.of(context).size.width / 1.15,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(60)),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black, blurRadius: 5)
+                        ],
+                      ),
+                      child: TextFormField(
+                        controller: controllerUser,
+                        decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.account_circle,
+                            color: Colors.grey.shade900,
+                          ),
+                          border: InputBorder.none,
+                          hintText: "Usuario",
+                        ),
+                      ),
+                    ),
                     //CONTAINER PASSWORD
                     Container(
                       width: MediaQuery.of(context).size.width / 1.15,
                       height: 50,
                       margin: EdgeInsets.only(top: 50),
-                      padding: EdgeInsets.only(
-                          top: 0.2, left: 15, right: 15, bottom: 6),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15,
+                      ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(60)),
                           color: Colors.white,
@@ -141,14 +148,28 @@ class _LoginPageState extends State<LoginPage> {
                             BoxShadow(color: Colors.black, blurRadius: 5)
                           ]),
                       child: TextFormField(
-                          controller: controllerPass,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              icon: Icon(
-                                Icons.vpn_key,
-                                color: Colors.orange,
-                              ),
-                              hintText: "Constraseña")),
+                        controller: controllerPass,
+                        obscureText: !_showPassword,
+                        decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.vpn_key,
+                            color: Colors.grey.shade900,
+                          ),
+                          border: InputBorder.none,
+                          hintText: "Contraseña",
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              Icons.remove_red_eye,
+                              color: _showPassword
+                                  ? Colors.grey.shade900
+                                  : Colors.grey.shade500,
+                            ),
+                            onPressed: () {
+                              setState(() => _showPassword = !_showPassword);
+                            },
+                          ),
+                        ),
+                      ),
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -160,26 +181,22 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    Spacer(),
-                    new ElevatedButton(
+                    SizedBox(height: 20),
+                    new MaterialButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => choferes()));
+                                builder: (context) => Choferes()));
                       },
-                      child: Text("INGRESAR"),
-                    )
-                    //new ElevatedButton
-                    // child: new Text("Ingresar"),
-                    //color: Colors.orangeAccent,
-                    //shape: new RoundedRectangleBorder(
-                    //  borderRadius: new BorderRadius.circular(60)
-                    //  ),
-                    //onPressed: () {
-                    // login();
-                    //Navigator.pop(context);
-                    //},
+                      height: 50,
+                      minWidth: 200,
+                      color: Colors.blue[800],
+                      child: Text(
+                        "INGRESAR",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ],
                 ),
               )
