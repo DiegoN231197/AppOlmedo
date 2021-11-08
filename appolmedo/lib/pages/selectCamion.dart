@@ -1,3 +1,4 @@
+import 'package:appolmedo/pages/widgets/logo_horizontal_azul.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/pages/chofer_pages.dart';
 
@@ -8,7 +9,7 @@ class SelectCamion extends StatefulWidget {
 
 class _SelectCamionState extends State<SelectCamion> {
   //datos para usar en la lista desplegable de patente de camiones
-  var camiones = ['camion1', 'camion 2', 'camion 3'];
+  var camiones = ['camion1', 'camion 2', 'camion 3', 'camion 4', 'camion 5'];
   String datolista = 'Patente camión';
 
   @override
@@ -21,31 +22,35 @@ class _SelectCamionState extends State<SelectCamion> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             const SizedBox(height: 20),
             new Text(
               "Seleccione la patente del camión a utilizar",
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 30,
                   color: Colors.orange[600],
+                  fontFamily: 'Sansation',
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold),
             ),
 
             //lista de patentes
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             Card(
               color: Colors.blue[700],
               elevation: 10.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
               child: SizedBox(
-                height: 160,
+                height: 150,
                 width: 250,
                 child: Padding(
                   padding: EdgeInsets.all(2),
                   child: Container(
-                    padding: EdgeInsets.only(left: 16, right: 16),
+                    padding: EdgeInsets.only(left: 15, right: 15),
                     alignment: Alignment.center,
                     child: DropdownButtonFormField(
                       elevation: 50,
@@ -67,8 +72,9 @@ class _SelectCamionState extends State<SelectCamion> {
                           child: Text(
                             a,
                             style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ); //se retornan los datos contenidos en la lista antes declarada
                       }).toList(),
@@ -105,9 +111,12 @@ class _SelectCamionState extends State<SelectCamion> {
               textColor: Colors.white,
               color: Colors.orange[600],
               splashColor: Colors.blue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
             ),
             const SizedBox(height: 50),
-            Image.asset('assets/images/logoblanco.png'),
+            LogoAzulWidget(),
           ],
         ),
       ),
@@ -131,7 +140,7 @@ class DatosRuta extends MaterialPageRoute<String> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "Llene los siguientes datos",
+                      "Ingrese los siguientes datos",
                       style: TextStyle(
                           fontSize: 22,
                           color: Colors.orange[600],
@@ -148,7 +157,7 @@ class DatosRuta extends MaterialPageRoute<String> {
                           Icons.content_paste,
                           color: Colors.black,
                         ),
-                        labelText: "Número de guía",
+                        labelText: "Número de guía/factura",
                       ),
                       keyboardType: TextInputType.number,
                     ),
@@ -191,7 +200,7 @@ class DatosRuta extends MaterialPageRoute<String> {
                           color: Colors.black,
                         ),
                         labelText: "Número de contacto",
-                        prefixText: '+56',
+                        prefixText: '+569',
                       ),
                       keyboardType: TextInputType.number,
                     ),
