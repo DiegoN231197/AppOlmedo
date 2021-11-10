@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:appolmedo/pages/admin_pages.dart';
 import 'package:appolmedo/pages/chofer_pages.dart';
 import 'package:appolmedo/pages/olvido_contrase%C3%B1a.dart';
 import 'package:appolmedo/pages/selectCamion.dart';
 import 'package:appolmedo/pages/confirmacion_entregas.dart';
+import 'package:appolmedo/pages/listado_rutas.dart';
 
 void main() => runApp(AppOlmedo());
 
@@ -24,6 +26,7 @@ class AppOlmedo extends StatelessWidget {
           '/choferPages': (BuildContext context) => new Choferes(),
           '/LoginPage': (BuildContext context) => LoginPage(),
           '/selectCamion': (BuildContext context) => new SelectCamion(),
+          '/listadorutas': (BuildContext context) => new ListadoRutas(),
           '/confirmacionEntregas': (BuildContext context) =>
               new ConfirmacionEntregas(),
           '/solicitud': (BuildContext context) => new Solicitud()
