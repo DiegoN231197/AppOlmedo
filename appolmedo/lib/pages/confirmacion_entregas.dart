@@ -1,7 +1,9 @@
 //import 'dart:html';
-
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/pages/chofer_pages.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ConfirmacionEntregas extends StatefulWidget {
   ConfirmacionEntregas({Key? key}) : super(key: key);
@@ -11,8 +13,10 @@ class ConfirmacionEntregas extends StatefulWidget {
 }
 
 class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
-  double opacidad = 1.0, opacidad2 = 1.0, opacidad3 = 1.0;
+  File? _imageFile;
+  final _picker = ImagePicker();
 
+  //Opciones lista ESTADO ENTREGA
   var estado = ["Entregado", "Parcialmente Entregado", "No entregado"];
   String lista = "Estado de entrega";
 
@@ -171,15 +175,21 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
               mensajeEntrega(),
               Center(
                 child: IconButton(
-                  iconSize: 32.0,
-                  icon: const Icon(Icons.attach_file),
-                  tooltip: 'Adjuntar imágen',
-                  onPressed: () {},
-                ),
+                    iconSize: 32.0,
+                    icon: const Icon(Icons.attach_file),
+                    tooltip: 'Adjuntar imágen',
+                    onPressed: _OpcionesAdjuntar),
               ),
               Text("Adjuntar imágen"),
               const SizedBox(height: 20),
 
+              //condicion para que aparezca la imagen cuando se selecciona una debajo del boton de adjuntar
+              if (this._imageFile == null)
+                Center()
+              else
+                Image.file(this._imageFile!),
+
+              const SizedBox(height: 20),
               //boton enviar info
               new MaterialButton(
                 onPressed: () {
@@ -202,18 +212,47 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
       ),
     );
   }
-}
 
-class ImagenGuia extends StatefulWidget {
-  ImagenGuia({Key? key}) : super(key: key);
+  //Función que arroja opciones al apretar el botón de adjuntar imagen
 
-  @override
-  _ImagenGuiaState createState() => _ImagenGuiaState();
-}
+  Future<void> _OpcionesAdjuntar() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Text("Tomar foto"),
+                    onTap: _ImagenCamara,
+                  ),
+                  Padding(padding: EdgeInsets.all(8)),
+                  GestureDetector(
+                      child: Text("Seleccionar desde la galería"),
+                      onTap: _ImagenGaleria),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
-class _ImagenGuiaState extends State<ImagenGuia> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  //Funciones para escoger imágen o utilizar la cámara
+
+  Future<void> _ImagenGaleria() async {
+    final PickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    Navigator.pop(context);
+    if (PickedFile != null) {
+      setState(() => this._imageFile = File(PickedFile.path));
+    }
+  }
+
+  Future<void> _ImagenCamara() async {
+    final PickedFile = await _picker.pickImage(source: ImageSource.camera);
+    Navigator.pop(context);
+    if (PickedFile != null) {
+      setState(() => this._imageFile = File(PickedFile.path));
+    }
   }
 }

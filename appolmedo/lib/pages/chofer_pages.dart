@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:appolmedo/pages/selectCamion.dart';
 import 'package:appolmedo/pages/confirmacion_entregas.dart';
+import 'package:appolmedo/pages/listado_rutas.dart';
 
 import 'widgets/logo_horizontal_azul.dart';
 
@@ -49,12 +50,18 @@ class Choferes extends StatelessWidget {
               height: 50.0,
               minWidth: 300,
               child: Text(
-                "Listado Guias",
+                "Listado Rutas",
                 style: TextStyle(fontSize: 25),
               ),
               textColor: Colors.white,
               color: Colors.orange[600],
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (contex) => ListadoRutas(),
+                    ))
+              },
               splashColor: Colors.blue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
