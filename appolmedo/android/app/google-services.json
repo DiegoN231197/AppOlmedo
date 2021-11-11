@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "104698319720",
+    "project_id": "app-olmedo",
+    "storage_bucket": "app-olmedo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104698319720:android:9022ecc2e232ad0856bcdd",
+        "android_client_info": {
+          "package_name": "com.example.appolmedo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104698319720-66u4at15g5mc50nsbldjanei0o6bspqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmtsAlNp-390G-rFMcns9WXM-u-Mg7cCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104698319720-66u4at15g5mc50nsbldjanei0o6bspqs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

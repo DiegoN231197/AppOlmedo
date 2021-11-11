@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:appolmedo/pages/admin_pages.dart';
 import 'package:appolmedo/pages/chofer_pages.dart';
 import 'package:appolmedo/pages/olvido_contrase%C3%B1a.dart';
