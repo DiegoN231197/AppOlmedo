@@ -31,8 +31,8 @@ class _ListadoRutasState extends State<ListadoRutas> {
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              CasillasRuta(),
-              CasillasRuta(),
+              casillasRuta(),
+              casillasRuta(),
             ],
           ),
         ),
@@ -40,7 +40,7 @@ class _ListadoRutasState extends State<ListadoRutas> {
     );
   }
 
-  Widget CasillasRuta() {
+  Widget casillasRuta() {
     return Center(
       child: Container(
         width: 300,

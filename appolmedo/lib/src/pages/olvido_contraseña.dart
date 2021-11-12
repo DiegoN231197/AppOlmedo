@@ -1,6 +1,6 @@
-import 'package:appolmedo/pages/contrase%C3%B1a_solicitada.dart';
+import 'package:appolmedo/src/pages/contrase%C3%B1a_solicitada.dart';
 import 'package:flutter/material.dart';
-import 'package:appolmedo/pages/widgets/logo_horizontal.dart';
+import 'package:appolmedo/src/pages/widgets/logo_horizontal.dart';
 
 class Solicitud extends StatefulWidget {
   const Solicitud({Key? key}) : super(key: key);

@@ -1,13 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:appolmedo/pages/admin_pages.dart';
-import 'package:appolmedo/pages/chofer_pages.dart';
-import 'package:appolmedo/pages/olvido_contrase%C3%B1a.dart';
-import 'package:appolmedo/pages/selectCamion.dart';
-import 'package:appolmedo/pages/confirmacion_entregas.dart';
-import 'package:appolmedo/pages/listado_rutas.dart';
+
+import 'package:appolmedo/src/pages/admin_pages.dart';
+import 'package:appolmedo/src/pages/chofer_pages.dart';
+import 'package:appolmedo/src/pages/olvido_contrase%C3%B1a.dart';
+import 'package:appolmedo/src/pages/selectCamion.dart';
+import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
+import 'package:appolmedo/src/pages/listado_rutas.dart';
+
+import 'package:firebase_database/firebase_database.dart';
 
 void main() => runApp(AppOlmedo());
 
@@ -46,34 +46,30 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerUser = new TextEditingController();
   TextEditingController controllerPass = new TextEditingController();
   bool _showPassword = false;
-  String mensaje = '';
 
-  Future<List> login() async {
-    final response = await http
-        .post(Uri.parse("http://192.168.1.135/transolmedo/login.php"), body: {
-      "USERNAME": controllerUser.text,
-      "PASSWORD": controllerPass.text,
+  String name = '';
+  int rut = 0;
+
+  final databaseReference = FirebaseDatabase.instance.reference();
+
+  void getData() {
+    databaseReference
+        .child('usuarios/adminstrador/')
+        .once()
+        .then((DataSnapshot snapshot) {
+      //AdministradorAcc.getAdministrador();
+      print('Data :  ${snapshot.value} ');
+      //final jsonAdmin = snapshot.value as Map<dynamic, dynamic>;
+      //final mensaje2 = Administradordb.fromJson(jsonAdmin);
+      name = snapshot.value['nombre'];
+      rut = snapshot.value['rut'];
+      print(name);
+      print(rut);
+      //print('nombre' + snapshot.value['nombre']);
+      //print('rut: ' + snapshot.value['rut'].toString());
+
+      //print(name);
     });
-
-    var datauser = json.decode(response.body);
-
-    if (datauser.lenght == 0) {
-      setState(() {
-        mensaje = "usuario o contraseña incorrectos";
-      });
-    } else {
-      if (datauser[0]['PERFIL'] == 'administrador') {
-        Navigator.pushReplacementNamed(context,
-            '/adminPages'); //si el dato leido de la base de datos es correcto, llevame a la pagina de admin
-      } else if (datauser[0]['PERFIL'] == 'chofer') {
-        Navigator.pushReplacementNamed(context,
-            '/choferPages'); //si el dato leido de la base de datos es correcto, llevame a la pagina de chofer
-      }
-      setState(() {
-        username = datauser[0]['USUARIO'];
-      });
-    }
-    return datauser;
   }
 
   @override
@@ -209,6 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 30),
                     new MaterialButton(
                       onPressed: () {
+                        getData();
                         Navigator.push(
                             context,
                             MaterialPageRoute(

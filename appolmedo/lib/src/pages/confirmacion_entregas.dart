@@ -2,7 +2,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:appolmedo/pages/chofer_pages.dart';
+import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ConfirmacionEntregas extends StatefulWidget {
@@ -108,55 +108,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold),
               ),
-              /* Container(
-                child: Row(
-                  children: [
-                    const SizedBox(height: 30),
-                    const SizedBox(width: 55),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() => this.opacidad = 1.0 - this.opacidad);
-                      },
-                      child: Opacity(
-                        opacity: opacidad,
-                        child: estados(Colors.green),
-                      ),
-                    ),
-                    const SizedBox(width: 130),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() => this.opacidad2 = 1.0 - this.opacidad2);
-                      },
-                      child: Opacity(
-                        opacity: opacidad2,
-                        child: estados(Colors.yellow),
-                      ),
-                    ),
-                    const SizedBox(width: 130),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() => this.opacidad3 = 1.0 - this.opacidad3);
-                      },
-                      child: Opacity(
-                        opacity: opacidad3,
-                        child: estados(Colors.red),
-                      ),
-                    ),
-                  ],
-                ),
-              ), */
-              /*Container(
-                child: Row(
-                  children: [
-                    const SizedBox(width: 25),
-                    Text("Entregado"),
-                    const SizedBox(width: 30),
-                    Text("Parcialmente entregado"),
-                    const SizedBox(width: 30),
-                    Text("No entregado"),
-                  ],
-                ),
-              ),*/
+
               const SizedBox(height: 20),
               DropdownButton(
                 elevation: 30,
@@ -178,7 +130,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                     iconSize: 32.0,
                     icon: const Icon(Icons.attach_file),
                     tooltip: 'Adjuntar imágen',
-                    onPressed: _OpcionesAdjuntar),
+                    onPressed: _opcionesadjuntar),
               ),
               Text("Adjuntar imágen"),
               const SizedBox(height: 20),
@@ -215,7 +167,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
 
   //Función que arroja opciones al apretar el botón de adjuntar imagen
 
-  Future<void> _OpcionesAdjuntar() {
+  Future<void> _opcionesadjuntar() {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -225,12 +177,12 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                 children: <Widget>[
                   GestureDetector(
                     child: Text("Tomar foto"),
-                    onTap: _ImagenCamara,
+                    onTap: _imagencamara,
                   ),
                   Padding(padding: EdgeInsets.all(8)),
                   GestureDetector(
                       child: Text("Seleccionar desde la galería"),
-                      onTap: _ImagenGaleria),
+                      onTap: _imagengaleria),
                 ],
               ),
             ),
@@ -240,19 +192,19 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
 
   //Funciones para escoger imágen o utilizar la cámara
 
-  Future<void> _ImagenGaleria() async {
-    final PickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> _imagengaleria() async {
+    final pickedfile = await _picker.pickImage(source: ImageSource.gallery);
     Navigator.pop(context);
-    if (PickedFile != null) {
-      setState(() => this._imageFile = File(PickedFile.path));
+    if (pickedfile != null) {
+      setState(() => this._imageFile = File(pickedfile.path));
     }
   }
 
-  Future<void> _ImagenCamara() async {
-    final PickedFile = await _picker.pickImage(source: ImageSource.camera);
+  Future<void> _imagencamara() async {
+    final pickedfile = await _picker.pickImage(source: ImageSource.camera);
     Navigator.pop(context);
-    if (PickedFile != null) {
-      setState(() => this._imageFile = File(PickedFile.path));
+    if (pickedfile != null) {
+      setState(() => this._imageFile = File(pickedfile.path));
     }
   }
 }
