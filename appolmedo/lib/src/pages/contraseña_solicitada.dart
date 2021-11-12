@@ -1,5 +1,5 @@
 import 'package:appolmedo/main.dart';
-import 'package:appolmedo/pages/widgets/logo_horizontal.dart';
+import 'package:appolmedo/src/pages/widgets/logo_horizontal.dart';
 import 'package:flutter/material.dart';
 
 class SolicitudEnviada extends StatefulWidget {

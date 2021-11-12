@@ -1,6 +1,6 @@
-import 'package:appolmedo/pages/widgets/logo_horizontal_azul.dart';
+import 'package:appolmedo/src/pages/widgets/logo_horizontal_azul.dart';
 import 'package:flutter/material.dart';
-import 'package:appolmedo/pages/chofer_pages.dart';
+import 'package:appolmedo/src/pages/chofer_pages.dart';
 
 class SelectCamion extends StatefulWidget {
   @override

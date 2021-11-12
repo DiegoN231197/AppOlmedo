@@ -1,0 +1,24 @@
+{
+    "usuarios": {
+        "administrador" : {
+            "rut": "194078951",
+            "nombre":"esteban"
+        },
+        "choferes": {
+
+        }
+    },
+
+    "camiones": {
+        
+            "patente": "",
+            "marca" : ""
+        
+    },
+
+    "guias": {
+
+    }
+
+
+}

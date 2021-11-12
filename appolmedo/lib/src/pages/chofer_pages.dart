@@ -1,8 +1,8 @@
 //import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:appolmedo/pages/selectCamion.dart';
-import 'package:appolmedo/pages/confirmacion_entregas.dart';
-import 'package:appolmedo/pages/listado_rutas.dart';
+import 'package:appolmedo/src/pages/selectCamion.dart';
+import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
+import 'package:appolmedo/src/pages/listado_rutas.dart';
 
 import 'widgets/logo_horizontal_azul.dart';
 
