@@ -11,8 +11,6 @@ import 'package:firebase_database/firebase_database.dart';
 
 void main() => runApp(AppOlmedo());
 
-String username = '';
-
 class AppOlmedo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,6 +19,7 @@ class AppOlmedo extends StatelessWidget {
         title: 'App TransOlemdo',
         home: LoginPage(),
         routes: <String, WidgetBuilder>{
+          '/login': (BuildContext context) => new LoginPage(),
           '/adminsPages': (BuildContext context) => new Administrador(),
           '/choferPages': (BuildContext context) => new Choferes(),
           '/LoginPage': (BuildContext context) => LoginPage(),
@@ -45,38 +44,37 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerUser = new TextEditingController();
   TextEditingController controllerPass = new TextEditingController();
-  bool _showPassword = false;
 
+  bool _showPassword = false;
   String name = '';
-  int rut = 0;
+  String rut = '';
+  String contrasena = '';
 
   final databaseReference = FirebaseDatabase.instance.reference();
 
+  // función inicial para obtener los datos del chofer, despues
+  // hay que obtener una lista de los choferes e ir comprobando cada uno
   void getData() {
-    databaseReference
-        .child('usuarios/adminstrador/')
-        .once()
-        .then((DataSnapshot snapshot) {
-      //AdministradorAcc.getAdministrador();
-      print('Data :  ${snapshot.value} ');
-      //final jsonAdmin = snapshot.value as Map<dynamic, dynamic>;
-      //final mensaje2 = Administradordb.fromJson(jsonAdmin);
-      name = snapshot.value['nombre'];
-      rut = snapshot.value['rut'];
-      print(name);
-      print(rut);
-      //print('nombre' + snapshot.value['nombre']);
-      //print('rut: ' + snapshot.value['rut'].toString());
-
-      //print(name);
-    });
+    databaseReference.child('usuarios/choferes/').once().then(
+      (DataSnapshot snapshot) {
+        //print('Data :  ${snapshot.value} ');
+        name = snapshot.value['nombre'];
+        rut = snapshot.value['rut'];
+        contrasena = snapshot.value['contrasena'];
+      },
+    );
   }
+
+  //llave para validar el Form
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    getData();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
+        key: formKey,
         //Fondo
         child: Container(
           decoration: new BoxDecoration(
@@ -122,6 +120,13 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return '*Requerido';
+                          } else {
+                            return null;
+                          }
+                        },
                         controller: controllerUser,
                         decoration: InputDecoration(
                           icon: Icon(
@@ -149,6 +154,13 @@ class _LoginPageState extends State<LoginPage> {
                             BoxShadow(color: Colors.black, blurRadius: 5)
                           ]),
                       child: TextFormField(
+                        validator: (valor) {
+                          if (valor!.isEmpty) {
+                            return '*Requerido';
+                          } else {
+                            return null;
+                          }
+                        },
                         textAlignVertical: TextAlignVertical.center,
                         controller: controllerPass,
                         obscureText: !_showPassword,
@@ -202,14 +214,37 @@ class _LoginPageState extends State<LoginPage> {
                         )
                       ],
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 5),
                     new MaterialButton(
                       onPressed: () {
-                        getData();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Choferes()));
+                        if (formKey.currentState!.validate()) {
+                          if ((name == controllerUser.text) &&
+                              (contrasena == controllerPass.text)) {
+                            print("validate");
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Choferes(),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.blueGrey.shade600,
+                                content: Text(
+                                  "Datos Incorrectos",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                        }
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
