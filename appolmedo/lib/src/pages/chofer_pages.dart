@@ -1,6 +1,11 @@
 //import 'dart:html';
+import 'package:appolmedo/src/controller/camion/camion.dart';
+import 'package:appolmedo/src/controller/camion/camion_acc.dart';
+import 'package:appolmedo/src/controller/camion/lista_camiones.dart';
+import 'package:appolmedo/src/controller/camion/widget_camion.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:appolmedo/src/pages/selectCamion.dart';
+//import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:appolmedo/src/pages/listado_rutas.dart';
 
@@ -8,7 +13,41 @@ import 'widgets/logo_horizontal_azul.dart';
 
 //Clase que se encarga de la vista o página del chofer, en donde tendrá su menu y funciones
 
-class Choferes extends StatelessWidget {
+class Choferes extends StatefulWidget {
+  Choferes({Key? key}) : super(key: key);
+  final camionAcc = CamionAcc();
+
+  @override
+  _ChoferesState createState() => _ChoferesState();
+}
+
+class _ChoferesState extends State<Choferes> {
+  final ScrollController _scrollController = ScrollController();
+  //Future TextEditingController _lista = TextEditingController();
+
+  var patentes = ["Lista de camiones"];
+
+  Widget _getListaCamiones() {
+    return Expanded(
+      child: FirebaseAnimatedList(
+        controller: _scrollController,
+        query: widget.camionAcc.getCamiones(),
+        itemBuilder: (context, snapshot, animation, index) {
+          final json = snapshot.value as Map<dynamic, dynamic>;
+          final camion = Camiondb.fromJson(json);
+          patentes.add(camion.patente);
+
+          return WidgetCamiones(camion.patente);
+        },
+      ),
+    );
+  }
+
+  void verpatentes() {
+    //_getListaCamiones();
+    print(patentes);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +107,7 @@ class Choferes extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
+            _getListaCamiones(),
             new MaterialButton(
               height: 50.0,
               minWidth: 300,
@@ -81,8 +121,9 @@ class Choferes extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               onPressed: () {
-                Route route =
-                    MaterialPageRoute(builder: (contex) => SelectCamion());
+                verpatentes();
+                Route route = MaterialPageRoute(
+                    builder: (contex) => ListaCamiones(patentes));
                 Navigator.push(context, route);
               },
               splashColor: Colors.blue,
