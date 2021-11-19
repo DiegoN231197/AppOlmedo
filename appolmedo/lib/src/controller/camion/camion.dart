@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Camiondb {
   final String marca;
   final String patente;
@@ -9,4 +7,7 @@ class Camiondb {
   Camiondb.fromJson(Map<dynamic, dynamic> json)
       : marca = json['marca'] as String,
         patente = json['patente'] as String;
+
+  Map<dynamic, dynamic> toJson() =>
+      <dynamic, dynamic>{'nombre': marca, 'patente': patente};
 }

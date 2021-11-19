@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:appolmedo/src/pages/admin_pages.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:appolmedo/src/pages/olvido_contrase%C3%B1a.dart';
 import 'package:appolmedo/src/pages/selectCamion.dart';
@@ -20,7 +19,6 @@ class AppOlmedo extends StatelessWidget {
         home: LoginPage(),
         routes: <String, WidgetBuilder>{
           '/login': (BuildContext context) => new LoginPage(),
-          '/adminsPages': (BuildContext context) => new Administrador(),
           '/choferPages': (BuildContext context) => new Choferes(),
           '/LoginPage': (BuildContext context) => LoginPage(),
           '/selectCamion': (BuildContext context) => new SelectCamion(),
@@ -53,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
   final databaseReference = FirebaseDatabase.instance.reference();
 
   // función inicial para obtener los datos del chofer, despues
-  // hay que obtener una lista de los choferes e ir comprobando cada uno
+  // hay que obtener una lista de los choferes e ir comprobando cada uno, quizás ahi usar clases
   void getData() {
     databaseReference.child('usuarios/choferes/').once().then(
       (DataSnapshot snapshot) {
