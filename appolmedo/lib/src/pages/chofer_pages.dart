@@ -3,6 +3,7 @@ import 'package:appolmedo/src/controller/camion/camion.dart';
 import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 import 'package:appolmedo/src/controller/camion/lista_camiones.dart';
 import 'package:appolmedo/src/controller/camion/widget_camion.dart';
+import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 //import 'package:appolmedo/src/pages/selectCamion.dart';
@@ -107,7 +108,7 @@ class _ChoferesState extends State<Choferes> {
               ),
             ),
             const SizedBox(height: 30),
-            _getListaCamiones(),
+            //_getListaCamiones(),
             new MaterialButton(
               height: 50.0,
               minWidth: 300,
@@ -121,9 +122,9 @@ class _ChoferesState extends State<Choferes> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               onPressed: () {
-                verpatentes();
-                Route route = MaterialPageRoute(
-                    builder: (contex) => ListaCamiones(patentes));
+                //verpatentes();
+                Route route =
+                    MaterialPageRoute(builder: (contex) => SelectCamion());
                 Navigator.push(context, route);
               },
               splashColor: Colors.blue,
@@ -142,6 +143,7 @@ class _ChoferesState extends State<Choferes> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               onPressed: () => {
+                fechaActual(),
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -157,5 +159,14 @@ class _ChoferesState extends State<Choferes> {
         ),
       ),
     );
+  }
+
+  void fechaActual() {
+    var now = new DateTime.now();
+    print(now.day.toString() +
+        "/" +
+        now.month.toString() +
+        "/" +
+        now.year.toString());
   }
 }

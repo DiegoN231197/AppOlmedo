@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                           border: InputBorder.none,
                           hintText: "Usuario",
                         ),
-                        keyboardType: TextInputType.number,
+                        //keyboardType: TextInputType.number,
                       ),
                     ),
                     //CONTAINER PASSWORD

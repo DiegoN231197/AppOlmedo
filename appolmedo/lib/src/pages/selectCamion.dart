@@ -27,32 +27,51 @@ class _SelectCamionState extends State<SelectCamion> {
         backgroundColor: Colors.orange[600],
         title: Text('Generar Ruta'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            const SizedBox(height: 20),
-            new Text(
-              "Seleccione la patente del camión a utilizar",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.orange[600],
-                  fontFamily: 'Sansation',
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold),
-            ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              const SizedBox(height: 20),
+              new Text(
+                "Ingrese la patente del camión a utilizar",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.orange[600],
+                    fontFamily: 'Sansation',
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold),
+              ),
 
-            //lista de patentes
-            const SizedBox(height: 30),
-            Card(
-              color: Colors.blue[700],
-              elevation: 10.0,
+              //lista de patentes
+              const SizedBox(height: 30),
+              Card(
+                  child: Container(
+                padding: EdgeInsets.all(50),
+                width: 350,
+                color: Colors.blue[700],
+                /* elevation: 10.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              child: SizedBox(
+              ), */
+                child: TextField(
+                  controller: _controllerpatente,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(
+                    fillColor: Colors.white,
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.car_rental,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    hintText: "Patente del vehículo",
+                  ),
+                ),
+                /* child: SizedBox(
                 height: 150,
                 width: 250,
                 child: Padding(
@@ -82,29 +101,30 @@ class _SelectCamionState extends State<SelectCamion> {
                         },
                       )),
                 ),
-              ),
-            ),
+              ), */
+              )),
 
-            const SizedBox(height: 50),
+              const SizedBox(height: 50),
 
-            //boton continuar
-            new MaterialButton(
-              onPressed: () {
-                Navigator.push(context, DatosRuta());
-              },
-              height: 50,
-              minWidth: 300,
-              child: Text("Continuar", style: TextStyle(fontSize: 30)),
-              textColor: Colors.white,
-              color: Colors.orange[600],
-              splashColor: Colors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+              //boton continuar
+              new MaterialButton(
+                onPressed: () {
+                  Navigator.push(context, DatosRuta());
+                },
+                height: 50,
+                minWidth: 300,
+                child: Text("Continuar", style: TextStyle(fontSize: 30)),
+                textColor: Colors.white,
+                color: Colors.orange[600],
+                splashColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
               ),
-            ),
-            const SizedBox(height: 50),
-            LogoAzulWidget(),
-          ],
+              const SizedBox(height: 50),
+              LogoAzulWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -124,6 +144,7 @@ TextEditingController _controllerfecha = TextEditingController();
 TextEditingController _controllerdireccion = TextEditingController();
 TextEditingController _controllerncomuna = TextEditingController();
 TextEditingController _controllerregion = TextEditingController();
+TextEditingController _controllerpatente = TextEditingController();
 
 //Pantalla para llenar datos sobre la ruta y guia que se va a entregar
 class DatosRuta extends MaterialPageRoute<String> {
@@ -135,6 +156,7 @@ class DatosRuta extends MaterialPageRoute<String> {
               appBar: new AppBar(
                 backgroundColor: Colors.orange[600],
                 title: Text("Datos de Ruta"),
+                leading: const Icon(Icons.content_paste),
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 35),
@@ -148,6 +170,32 @@ class DatosRuta extends MaterialPageRoute<String> {
                             color: Colors.orange[600],
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        child: Center(
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 90),
+                              Text(
+                                "Camión: ",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.orange[600],
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                              Text(
+                                _controllerpatente.text,
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    color: Colors.orange[600],
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 30),
                       //casilla n° guia
@@ -206,7 +254,7 @@ class DatosRuta extends MaterialPageRoute<String> {
                             color: Colors.black,
                           ),
                           labelText: "Número de contacto",
-                          prefixText: '+569',
+                          prefixText: '+56',
                         ),
                         keyboardType: TextInputType.number,
                       ),
@@ -272,19 +320,41 @@ class DatosRuta extends MaterialPageRoute<String> {
                       ),
                       const SizedBox(height: 20),
                       //boton generar ruta
-                      new MaterialButton(
-                        onPressed: () {
-                          Route route = MaterialPageRoute(
-                              builder: (contex) => Choferes());
-                          Navigator.push(context, route);
-                        },
-                        height: 40,
-                        minWidth: 60,
-                        child: Text("Generar Ruta",
-                            style: TextStyle(fontSize: 20)),
-                        color: Colors.orange[600],
-                        splashColor: Colors.blue,
-                        textColor: Colors.white,
+                      Container(
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 30),
+                            new MaterialButton(
+                              onPressed: () {
+                                /*  Route route = MaterialPageRoute(
+                                    builder: (contex) => DatosRuta()); */
+                                Navigator.push(context, DatosRuta());
+                              },
+                              height: 40,
+                              minWidth: 60,
+                              child: Text("Generar Ruta",
+                                  style: TextStyle(fontSize: 20)),
+                              color: Colors.orange[600],
+                              splashColor: Colors.blue,
+                              textColor: Colors.white,
+                            ),
+                            const SizedBox(width: 30),
+                            new MaterialButton(
+                              onPressed: () {
+                                Route route = MaterialPageRoute(
+                                    builder: (contex) => Choferes());
+                                Navigator.push(context, route);
+                              },
+                              height: 40,
+                              minWidth: 60,
+                              child: Text("Finalizar",
+                                  style: TextStyle(fontSize: 20)),
+                              color: Colors.orange[600],
+                              splashColor: Colors.blue,
+                              textColor: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 20),
                     ],

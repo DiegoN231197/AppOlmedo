@@ -38,6 +38,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
       decoration: InputDecoration(
         counterText: '${this.controller.text.split('').length} words',
         border: const OutlineInputBorder(),
+        hintText: "Ingrese detalle del motivo del estado de entrega",
       ),
       onChanged: (text) => setState(() {}),
     );
@@ -83,8 +84,10 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                   ),
                   labelText: "Fecha de entrega",
                 ),
+                initialValue: fechaActual(),
                 keyboardType: TextInputType.datetime,
               ),
+
               const SizedBox(height: 20),
               //casilla hora de entrega
               TextFormField(
@@ -97,8 +100,10 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                   ),
                   labelText: "Hora de entrega",
                 ),
+                initialValue: horaActual(),
                 keyboardType: TextInputType.datetime,
               ),
+
               const SizedBox(height: 20),
               Text(
                 "Estado de la entrega",
@@ -119,12 +124,17 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                 onChanged: (datonuevo) => {
                   setState(() {
                     lista = datonuevo.toString();
+                    valoritem.valorestado =
+                        lista; //se guarda en valoritem.valorestado el estado seleccionado para trabajar con él
                   })
                 },
                 hint: Text(lista),
               ),
-              const ListTile(title: Text('Ingrese detalles sobre la entrega')),
-              mensajeEntrega(),
+              if (valoritem.valorestado == "" ||
+                  valoritem.valorestado == "Parcialmente Entregado" ||
+                  valoritem.valorestado == "No entregado")
+                mensajeEntrega(),
+
               Center(
                 child: IconButton(
                     iconSize: 32.0,
@@ -207,4 +217,25 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
       setState(() => this._imageFile = File(pickedfile.path));
     }
   }
+
+  String fechaActual() {
+    var now = new DateTime.now();
+    var dato = (now.day.toString() +
+        "/" +
+        now.month.toString() +
+        "/" +
+        now.year.toString());
+    return dato;
+  }
+
+  String horaActual() {
+    var now = new DateTime.now();
+    var hora = (now.hour.toString() + ":" + now.minute.toString());
+    return hora;
+  }
+}
+
+//clase para obtener el valor seleccionado en el dropdownbutton de estado de entrega
+class valoritem {
+  static String valorestado = "";
 }
