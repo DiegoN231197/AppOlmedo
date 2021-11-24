@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:appolmedo/src/pages/datosruta.dart';
 import 'package:appolmedo/src/pages/widgets/logo_horizontal_azul.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
@@ -109,7 +110,11 @@ class _SelectCamionState extends State<SelectCamion> {
               //boton continuar
               new MaterialButton(
                 onPressed: () {
-                  Navigator.push(context, DatosRuta());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Datosruta(_controllerpatente.text)));
                 },
                 height: 50,
                 minWidth: 300,
@@ -136,7 +141,8 @@ class _SelectCamionState extends State<SelectCamion> {
   }
 }
 
-TextEditingController _controllernumguia = TextEditingController();
+TextEditingController _controllerpatente = TextEditingController();
+/* TextEditingController _controllernumguia = TextEditingController();
 TextEditingController _controllerrutcliente = TextEditingController();
 TextEditingController _controllernombre = TextEditingController();
 TextEditingController _controllernumero = TextEditingController();
@@ -144,11 +150,30 @@ TextEditingController _controllerfecha = TextEditingController();
 TextEditingController _controllerdireccion = TextEditingController();
 TextEditingController _controllerncomuna = TextEditingController();
 TextEditingController _controllerregion = TextEditingController();
-TextEditingController _controllerpatente = TextEditingController();
+
+
+var region = [
+  "Arica y Parinacota",
+  "Tarapacá",
+  "Antofagasta",
+  "Atacama",
+  "Coquimbo",
+  "Valparaíso",
+  "Metropolitana",
+  "O'Higgins",
+  "Maule",
+  "Nuble",
+  "Bío-Bío",
+  "Araucanía",
+  "Los Ríos",
+  "Los Lagos",
+  "Aysén",
+  "Magallanes y Antártica Chilena"
+];
+String seleccion = "Seleccione la región de despacho";
 
 //Pantalla para llenar datos sobre la ruta y guia que se va a entregar
-class DatosRuta extends MaterialPageRoute<String> {
-  bool numerovalido = true;
+class DatosRuta extends MaterialPageRoute<String> {  
   DatosRuta()
       : super(
           builder: (BuildContext context) {
@@ -261,7 +286,7 @@ class DatosRuta extends MaterialPageRoute<String> {
                       const SizedBox(height: 20),
                       //casilla fecha
                       TextFormField(
-                        controller: _controllerfecha,
+                        //controller: _controllerfecha,
                         decoration: const InputDecoration(
                           border: UnderlineInputBorder(),
                           filled: true,
@@ -271,6 +296,7 @@ class DatosRuta extends MaterialPageRoute<String> {
                           ),
                           labelText: "Fecha",
                         ),
+                        initialValue: fechaActual(),
                         keyboardType: TextInputType.datetime,
                       ),
                       const SizedBox(height: 20),
@@ -305,7 +331,7 @@ class DatosRuta extends MaterialPageRoute<String> {
                       ),
                       const SizedBox(height: 20),
                       //casilla de region
-                      TextFormField(
+                      /* TextFormField(
                         controller: _controllerregion,
                         textCapitalization: TextCapitalization.words,
                         decoration: const InputDecoration(
@@ -317,6 +343,21 @@ class DatosRuta extends MaterialPageRoute<String> {
                           ),
                           labelText: "Región",
                         ),
+                      ), */
+                      DropdownButton(
+                        elevation: 30,
+                        iconSize: 30,
+                        items: region.map((String c) {
+                          return DropdownMenuItem(value: c, child: Text(c));
+                        }).toList(),
+                        onChanged: (region) => {
+                          setState(() {
+                            seleccion = region.toString();
+                            valoritem.valorregion =
+                                seleccion; //se guarda en valoritem.valorestado el estado seleccionado para trabajar con él
+                          })
+                        },
+                        hint: Text(seleccion),
                       ),
                       const SizedBox(height: 20),
                       //boton generar ruta
@@ -365,3 +406,18 @@ class DatosRuta extends MaterialPageRoute<String> {
           },
         );
 }
+
+String fechaActual() {
+  var now = new DateTime.now();
+  var dato = (now.day.toString() +
+      "/" +
+      now.month.toString() +
+      "/" +
+      now.year.toString());
+  return dato;
+}
+
+class valoritem {
+  static String valorregion = "";
+}
+ */

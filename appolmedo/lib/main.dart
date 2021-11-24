@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:appolmedo/src/pages/chofer_pages.dart';
@@ -5,7 +7,7 @@ import 'package:appolmedo/src/pages/olvido_contrase%C3%B1a.dart';
 import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:appolmedo/src/pages/listado_rutas.dart';
-
+import 'package:appolmedo/src/pages/datosruta.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 void main() => runApp(AppOlmedo());
@@ -22,7 +24,8 @@ class AppOlmedo extends StatelessWidget {
           '/choferPages': (BuildContext context) => new Choferes(),
           '/LoginPage': (BuildContext context) => LoginPage(),
           '/selectCamion': (BuildContext context) => new SelectCamion(),
-          '/listadorutas': (BuildContext context) => new ListadoRutas(),
+          //'/listadorutas': (BuildContext context) => new ListadoRutas(),
+          //'/datosruta': (BuildContext context) => new Datosruta(),
           '/confirmacionEntregas': (BuildContext context) =>
               new ConfirmacionEntregas(),
           '/solicitud': (BuildContext context) => new Solicitud()
@@ -31,7 +34,6 @@ class AppOlmedo extends StatelessWidget {
 }
 
 // Creación de la clase Login
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -45,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _showPassword = false;
   String name = '';
-  String rut = '';
   String contrasena = '';
 
   final databaseReference = FirebaseDatabase.instance.reference();
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
       (DataSnapshot snapshot) {
         //print('Data :  ${snapshot.value} ');
         name = snapshot.value['nombre'];
-        rut = snapshot.value['rut'];
+
         contrasena = snapshot.value['contrasena'];
       },
     );

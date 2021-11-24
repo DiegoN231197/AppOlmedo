@@ -145,7 +145,7 @@ class _ListaCamionesState extends State<ListaCamiones> {
             //boton continuar
             new MaterialButton(
               onPressed: () {
-                Navigator.push(context, DatosRuta());
+                Navigator.pushReplacementNamed(context, '/datosruta');
               },
               height: 50,
               minWidth: 300,

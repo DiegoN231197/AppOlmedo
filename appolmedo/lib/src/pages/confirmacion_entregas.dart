@@ -130,8 +130,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                 },
                 hint: Text(lista),
               ),
-              if (valoritem.valorestado == "" ||
-                  valoritem.valorestado == "Parcialmente Entregado" ||
+              if (valoritem.valorestado == "Parcialmente Entregado" ||
                   valoritem.valorestado == "No entregado")
                 mensajeEntrega(),
 
