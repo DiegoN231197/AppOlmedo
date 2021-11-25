@@ -1,7 +1,23 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:appolmedo/src/pages/datosruta.dart';
+import 'package:appolmedo/src/pages/chofer_pages.dart';
 
 class ListadoRutas extends StatefulWidget {
-  ListadoRutas({Key? key}) : super(key: key);
+  final String nguia;
+  final String rut;
+  final String nombre;
+  final String numero;
+  final String fecha;
+  final String direccion;
+  final String comuna;
+  final String region;
+  final String patente;
+  ListadoRutas(this.nguia, this.rut, this.nombre, this.numero, this.fecha,
+      this.direccion, this.comuna, this.region, this.patente,
+      {Key? key})
+      : super(key: key);
 
   @override
   _ListadoRutasState createState() => _ListadoRutasState();
@@ -31,8 +47,7 @@ class _ListadoRutasState extends State<ListadoRutas> {
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              casillasRuta(),
-              casillasRuta(),
+              casillasRuta()
             ],
           ),
         ),
@@ -52,7 +67,8 @@ class _ListadoRutasState extends State<ListadoRutas> {
             width: 250,
             height: 300,
             color: Colors.white,
-            child: Text("Ruta X"),
+            child: Text(widget.nguia),
+
             //codigo para ingresar los datos almacenados en la ruta generada.
           ),
         ),

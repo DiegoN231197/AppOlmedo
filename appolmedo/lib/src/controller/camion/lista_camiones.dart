@@ -94,7 +94,7 @@ class _ListaCamionesState extends State<ListaCamiones> {
                   child: Container(
                     padding: EdgeInsets.only(left: 15, right: 15),
                     alignment: Alignment.center,
-                    child: DropdownButtonFormField(
+                    /* child: DropdownButtonFormField(
                       elevation: 50,
                       iconSize: 30,
                       isExpanded: true,
@@ -107,7 +107,7 @@ class _ListaCamionesState extends State<ListaCamiones> {
                         filled: true,
                         fillColor: Colors.white,
                       ),
-                      items: patentes.map((String a) {
+                      /* items: patentes.map((String a) {
                         //camiones es declarada mas arriba como lista de strings, se declara como map, para utilizarlo, y luego se utiliza la variable a, para que al desplegar la lista arroje los datos que se encuentran en camiones
                         return DropdownMenuItem(
                           value: a,
@@ -119,7 +119,7 @@ class _ListaCamionesState extends State<ListaCamiones> {
                             ),
                           ),
                         ); //se retornan los datos contenidos en la lista antes declarada
-                      }).toList(),
+                      }).toList(), */
                       onChanged: (datonuevo) => {
                         setState(
                           () {
@@ -134,7 +134,7 @@ class _ListaCamionesState extends State<ListaCamiones> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ), */
                   ),
                 ),
               ),
@@ -145,7 +145,7 @@ class _ListaCamionesState extends State<ListaCamiones> {
             //boton continuar
             new MaterialButton(
               onPressed: () {
-                Navigator.push(context, DatosRuta());
+                Navigator.pushReplacementNamed(context, '/datosruta');
               },
               height: 50,
               minWidth: 300,

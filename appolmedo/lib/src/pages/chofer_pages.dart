@@ -3,12 +3,13 @@ import 'package:appolmedo/src/controller/camion/camion.dart';
 import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 import 'package:appolmedo/src/controller/camion/lista_camiones.dart';
 import 'package:appolmedo/src/controller/camion/widget_camion.dart';
+import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 //import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:appolmedo/src/pages/listado_rutas.dart';
-
+import 'package:appolmedo/src/pages/datosruta.dart';
 import 'widgets/logo_horizontal_azul.dart';
 
 //Clase que se encarga de la vista o página del chofer, en donde tendrá su menu y funciones
@@ -23,6 +24,15 @@ class Choferes extends StatefulWidget {
 
 class _ChoferesState extends State<Choferes> {
   final ScrollController _scrollController = ScrollController();
+  TextEditingController _controllernumguia = TextEditingController();
+  TextEditingController _controllerrutcliente = TextEditingController();
+  TextEditingController _controllernombre = TextEditingController();
+  TextEditingController _controllernumero = TextEditingController();
+  TextEditingController _controllerfecha = TextEditingController();
+  TextEditingController _controllerdireccion = TextEditingController();
+  TextEditingController _controllerncomuna = TextEditingController();
+  TextEditingController _controllerregion = TextEditingController();
+  TextEditingController _controllerpatente = TextEditingController();
   //Future TextEditingController _lista = TextEditingController();
 
   var patentes = ["Lista de camiones"];
@@ -98,7 +108,16 @@ class _ChoferesState extends State<Choferes> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (contex) => ListadoRutas(),
+                      builder: (contex) => ListadoRutas(
+                          _controllernumguia.text,
+                          _controllerrutcliente.text,
+                          _controllernombre.text,
+                          _controllernumero.text,
+                          _controllerfecha.text,
+                          _controllerdireccion.text,
+                          _controllerncomuna.text,
+                          _controllerregion.text,
+                          _controllerpatente.text),
                     ))
               },
               splashColor: Colors.blue,
@@ -107,7 +126,7 @@ class _ChoferesState extends State<Choferes> {
               ),
             ),
             const SizedBox(height: 30),
-            _getListaCamiones(),
+            //_getListaCamiones(),
             new MaterialButton(
               height: 50.0,
               minWidth: 300,
@@ -121,9 +140,9 @@ class _ChoferesState extends State<Choferes> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               onPressed: () {
-                verpatentes();
-                Route route = MaterialPageRoute(
-                    builder: (contex) => ListaCamiones(patentes));
+                //verpatentes();
+                Route route =
+                    MaterialPageRoute(builder: (contex) => SelectCamion());
                 Navigator.push(context, route);
               },
               splashColor: Colors.blue,
