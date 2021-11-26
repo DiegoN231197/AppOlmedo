@@ -8,8 +8,10 @@ import 'widgets/logo_horizontal_azul.dart';
 
 //Clase que se encarga de la vista o página del chofer, en donde tendrá su menu y funciones
 
+// ignore: must_be_immutable
 class Choferes extends StatefulWidget {
   Choferes({Key? key}) : super(key: key);
+
   final camionAcc = CamionAcc();
 
   @override

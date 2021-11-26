@@ -1,5 +1,8 @@
 import 'dart:core';
 
+import 'package:appolmedo/src/controller/guia/guia.dart';
+import 'package:appolmedo/src/controller/guia/guia_acc.dart';
+//import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
 
@@ -41,6 +44,8 @@ class _DatosrutaState extends State<Datosruta> {
     "Magallanes y Antártica Chilena"
   ];
   String seleccion = "Seleccione región";
+
+  //final guia = Guia();
 
   @override
   Widget build(BuildContext context) {
@@ -198,19 +203,6 @@ class _DatosrutaState extends State<Datosruta> {
               ),
               const SizedBox(height: 20),
               //casilla de region
-              /* TextFormField(
-                        controller: _controllerregion,
-                        textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          filled: true,
-                          icon: Icon(
-                            Icons.pin_drop,
-                            color: Colors.black,
-                          ),
-                          labelText: "Región",
-                        ),
-                      ), */
               Row(
                 children: [
                   Icon(
@@ -244,6 +236,18 @@ class _DatosrutaState extends State<Datosruta> {
                       onPressed: () {
                         /*  Route route = MaterialPageRoute(
                                     builder: (contex) => DatosRuta()); */
+                        final guia = Guia(
+                            _controllernumguia.text,
+                            _controllerrutcliente.text,
+                            _controllernombre.text,
+                            _controllernumero.text,
+                            fechaActual(),
+                            _controllerdireccion.text,
+                            _controllerncomuna.text,
+                            Valoritem.valorregion,
+                            widget.patent,
+                            "");
+                        GuiaAcc().guardarGuias(guia);
                         Navigator.pushReplacementNamed(context, '/datosruta');
                       },
                       height: 40,

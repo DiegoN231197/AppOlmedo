@@ -1,5 +1,7 @@
 //import 'dart:html';
 import 'dart:io';
+//import 'package:appolmedo/src/controller/guia/guia.dart';
+import 'package:appolmedo/src/controller/guia/guia_acc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
@@ -30,6 +32,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
 
   //casilla de texto grande para poner datos sobre la entrega
   final controller = TextEditingController();
+  final _controllerNumGuia = TextEditingController();
   Widget mensajeEntrega() {
     return TextField(
       controller: this.controller,
@@ -61,6 +64,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
               const SizedBox(height: 20),
               //casilla n° guia
               TextFormField(
+                controller: _controllerNumGuia,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   filled: true,
@@ -154,6 +158,8 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
               //boton enviar info
               new MaterialButton(
                 onPressed: () {
+                  //final guia = Guia(numguia, rut, nombrecliente, numcontacto, fecha, direccion, comuna, region)
+                  GuiaAcc().confirmarGuias(_controllerNumGuia.text);
                   Route route =
                       MaterialPageRoute(builder: (contex) => Choferes());
                   Navigator.push(context, route);
