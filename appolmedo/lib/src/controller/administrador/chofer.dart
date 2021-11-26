@@ -13,9 +13,9 @@ class Choferdb {
         id = json['id'] as int;
 
   Map<dynamic, dynamic> toJson() => <dynamic, dynamic>{
-        'nombre': nombre,
-        'rut': rut,
-        'contrasena': contrasena,
-        'id': id
+        "nombre": nombre,
+        "rut": rut,
+        "contrasena": contrasena,
+        "id": id
       };
 }

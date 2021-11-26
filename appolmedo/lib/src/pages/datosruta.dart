@@ -1,9 +1,7 @@
 import 'dart:core';
-import 'package:appolmedo/src/pages/widgets/logo_horizontal_azul.dart';
+
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
-import 'package:appolmedo/src/controller/camion/camion_acc.dart';
-import 'package:appolmedo/src/pages/selectCamion.dart';
 
 class Datosruta extends StatefulWidget {
   final String patent;
@@ -18,10 +16,10 @@ class _DatosrutaState extends State<Datosruta> {
   TextEditingController _controllerrutcliente = TextEditingController();
   TextEditingController _controllernombre = TextEditingController();
   TextEditingController _controllernumero = TextEditingController();
-  TextEditingController _controllerfecha = TextEditingController();
+  //TextEditingController _controllerfecha = TextEditingController();
   TextEditingController _controllerdireccion = TextEditingController();
   TextEditingController _controllerncomuna = TextEditingController();
-  TextEditingController _controllerregion = TextEditingController();
+  //TextEditingController _controllerregion = TextEditingController();
   //TextEditingController _controllerpatente = TextEditingController();
 
   var region = [
@@ -228,7 +226,7 @@ class _DatosrutaState extends State<Datosruta> {
                     onChanged: (region) => {
                       setState(() {
                         seleccion = region.toString();
-                        valoritem.valorregion =
+                        Valoritem.valorregion =
                             seleccion; //se guarda en valoritem.valorestado el estado seleccionado para trabajar con él
                       })
                     },
@@ -292,6 +290,6 @@ String fechaActual() {
   return dato;
 }
 
-class valoritem {
+class Valoritem {
   static String valorregion = "";
 }

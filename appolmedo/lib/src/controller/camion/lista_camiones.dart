@@ -1,15 +1,6 @@
-//import 'dart:collection';
-//import 'dart:ffi';
-
-//import 'package:appolmedo/src/controller/camion/widget_camion.dart';
-import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:appolmedo/src/pages/widgets/logo_horizontal_azul.dart';
-//import 'package:firebase_database/firebase_database.dart';
-//import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:flutter/material.dart';
 
-//import 'camion.dart';
-//import 'camion_acc.dart';
+import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ListaCamiones extends StatefulWidget {
@@ -29,33 +20,9 @@ class _ListaCamionesState extends State<ListaCamiones> {
   List<DropdownMenuItem<Object>> patentes;
   _ListaCamionesState(this.patentes);
 
-  //List patentes2 = [];
-  /* Widget _getListaCamiones() {
-    return Expanded(
-      child: FirebaseAnimatedList(
-        controller: _scrollController,
-        query: widget.camionAcc.getCamiones(),
-        itemBuilder: (context, snapshot, animation, index) {
-          final json = snapshot.value as Map<dynamic, dynamic>;
-          final camion = Camiondb.fromJson(json);
-          patentes.add(camion.patente);
-          return WidgetCamiones(camion.patente);
-        },
-      ),
-    );
-  } */
-
-  void verpatentes() {
-    print('patentes2:');
-    print(patentes);
-  }
-
   //final databaseReference = FirebaseDatabase.instance.reference();
   @override
   Widget build(BuildContext context) {
-    verpatentes();
-    //guardarLista();
-    //_getListaCamiones();
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.orange[600],
@@ -94,47 +61,6 @@ class _ListaCamionesState extends State<ListaCamiones> {
                   child: Container(
                     padding: EdgeInsets.only(left: 15, right: 15),
                     alignment: Alignment.center,
-                    /* child: DropdownButtonFormField(
-                      elevation: 50,
-                      iconSize: 30,
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                      /* items: patentes.map((String a) {
-                        //camiones es declarada mas arriba como lista de strings, se declara como map, para utilizarlo, y luego se utiliza la variable a, para que al desplegar la lista arroje los datos que se encuentran en camiones
-                        return DropdownMenuItem(
-                          value: a,
-                          child: Text(
-                            a,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ); //se retornan los datos contenidos en la lista antes declarada
-                      }).toList(), */
-                      onChanged: (datonuevo) => {
-                        setState(
-                          () {
-                            datolista = datonuevo.toString();
-                          },
-                        ),
-                      },
-                      hint: Text(
-                        datolista,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ), */
                   ),
                 ),
               ),
@@ -164,16 +90,4 @@ class _ListaCamionesState extends State<ListaCamiones> {
       ),
     );
   }
-
-  /* void guardarLista() {
-    databaseReference.child('camiones').once().then((DataSnapshot snapshot) {
-      print('Data :  ${snapshot.value} ');
-      Map<String, Object> lista = new HashMap();
-      //String patente = snapshot.value['patente'];
-      lista.addAll(snapshot.value['patente']);
-      print(lista);
-    });
-    //patentes.add(patente);
-  } */
-
 }

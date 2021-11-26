@@ -1,16 +1,16 @@
-import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:appolmedo/src/pages/olvido_contrase%C3%B1a.dart';
 import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
-import 'package:appolmedo/src/pages/listado_rutas.dart';
-import 'package:appolmedo/src/pages/datosruta.dart';
-import 'package:firebase_database/firebase_database.dart';
 
-void main() => runApp(AppOlmedo());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(AppOlmedo());
+}
 
 class AppOlmedo extends StatelessWidget {
   @override
@@ -24,8 +24,6 @@ class AppOlmedo extends StatelessWidget {
           '/choferPages': (BuildContext context) => new Choferes(),
           '/LoginPage': (BuildContext context) => LoginPage(),
           '/selectCamion': (BuildContext context) => new SelectCamion(),
-          //'/listadorutas': (BuildContext context) => new ListadoRutas(),
-          //'/datosruta': (BuildContext context) => new Datosruta(),
           '/confirmacionEntregas': (BuildContext context) =>
               new ConfirmacionEntregas(),
           '/solicitud': (BuildContext context) => new Solicitud()
@@ -36,7 +34,6 @@ class AppOlmedo extends StatelessWidget {
 // Creación de la clase Login
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -45,23 +42,49 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerUser = new TextEditingController();
   TextEditingController controllerPass = new TextEditingController();
 
-  bool _showPassword = false;
-  String name = '';
-  String contrasena = '';
+  void initState() {
+    super.initState();
+  }
 
-  final databaseReference = FirebaseDatabase.instance.reference();
+  List choferesList = [];
+
+  void getChofer() async {
+    CollectionReference choferesCollection =
+        FirebaseFirestore.instance.collection("choferes");
+
+    QuerySnapshot choferes = await choferesCollection.get();
+
+    if (choferes.docs.length != 0) {
+      for (var chofer in choferes.docs) {
+        choferesList.add(chofer.data());
+      }
+    }
+    print(choferesList);
+  }
+
+  bool _showPassword = false;
+  bool _login = false;
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // función inicial para obtener los datos del chofer, despues
   // hay que obtener una lista de los choferes e ir comprobando cada uno, quizás ahi usar clases
-  void getData() {
-    databaseReference.child('usuarios/choferes/').once().then(
-      (DataSnapshot snapshot) {
-        //print('Data :  ${snapshot.value} ');
-        name = snapshot.value['nombre'];
+  bool getData(String name, String password) {
+    String nombre = name;
+    String contrasena = password;
+    bool verdadero = false;
 
-        contrasena = snapshot.value['contrasena'];
-      },
-    );
+    for (int i = 0; i < choferesList.length; i++) {
+      if ((choferesList[i]['nombre'] == nombre) &&
+          (choferesList[i]['password'] == contrasena)) {
+        i = choferesList.length;
+        print("validate");
+        verdadero = true;
+      } else {
+        print("error");
+      }
+    }
+    return verdadero;
   }
 
   //llave para validar el Form
@@ -69,7 +92,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    getData();
+    choferesList.clear();
+    getChofer();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -217,10 +241,9 @@ class _LoginPageState extends State<LoginPage> {
                     new MaterialButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          if ((name == controllerUser.text) &&
-                              (contrasena == controllerPass.text)) {
-                            print("validate");
-
+                          _login =
+                              getData(controllerUser.text, controllerPass.text);
+                          if (_login == true) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
