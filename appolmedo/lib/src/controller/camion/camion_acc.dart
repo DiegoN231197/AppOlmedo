@@ -1,13 +1,5 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'camion.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CamionAcc {
-  final DatabaseReference _camionRef =
-      FirebaseDatabase.instance.reference().child('camiones');
-
-  Query getCamiones() => _camionRef;
-
-  void guardarCamion(Camiondb camion) {
-    _camionRef.child(camion.patente).set(camion.toJson());
-  }
+  FirebaseFirestore camionRef = FirebaseFirestore.instance;
 }

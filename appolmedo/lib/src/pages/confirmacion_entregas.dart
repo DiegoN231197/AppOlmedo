@@ -235,6 +235,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
 }
 
 //clase para obtener el valor seleccionado en el dropdownbutton de estado de entrega
+// ignore: camel_case_types
 class valoritem {
   static String valorestado = "";
 }

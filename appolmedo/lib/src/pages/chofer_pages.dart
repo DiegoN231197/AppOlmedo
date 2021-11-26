@@ -1,15 +1,9 @@
-//import 'dart:html';
-import 'package:appolmedo/src/controller/camion/camion.dart';
 import 'package:appolmedo/src/controller/camion/camion_acc.dart';
-import 'package:appolmedo/src/controller/camion/lista_camiones.dart';
-import 'package:appolmedo/src/controller/camion/widget_camion.dart';
 import 'package:appolmedo/src/pages/selectCamion.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-//import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:appolmedo/src/pages/listado_rutas.dart';
-import 'package:appolmedo/src/pages/datosruta.dart';
+
 import 'widgets/logo_horizontal_azul.dart';
 
 //Clase que se encarga de la vista o página del chofer, en donde tendrá su menu y funciones
@@ -23,7 +17,6 @@ class Choferes extends StatefulWidget {
 }
 
 class _ChoferesState extends State<Choferes> {
-  final ScrollController _scrollController = ScrollController();
   TextEditingController _controllernumguia = TextEditingController();
   TextEditingController _controllerrutcliente = TextEditingController();
   TextEditingController _controllernombre = TextEditingController();
@@ -37,7 +30,7 @@ class _ChoferesState extends State<Choferes> {
 
   var patentes = ["Lista de camiones"];
 
-  Widget _getListaCamiones() {
+  /* Widget _getListaCamiones() {
     return Expanded(
       child: FirebaseAnimatedList(
         controller: _scrollController,
@@ -51,12 +44,7 @@ class _ChoferesState extends State<Choferes> {
         },
       ),
     );
-  }
-
-  void verpatentes() {
-    //_getListaCamiones();
-    print(patentes);
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

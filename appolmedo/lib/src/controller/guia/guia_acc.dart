@@ -1,13 +1,9 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'guia.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GuiaAcc {
-  final DatabaseReference _guiaRef =
-      FirebaseDatabase().reference().child('guias');
+  FirebaseFirestore guiasRef = FirebaseFirestore.instance;
 
-  Query getGuias() => _guiaRef;
-
-  void guardarGuias(Guia guia) {
-    _guiaRef.child(guia.numguia).set(guia.toJson());
-  }
+  /* void guardarGuias(Guia guia) {
+    guiaRef.child(guia.numguia).set(guia.toJson());
+  } */
 }

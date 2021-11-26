@@ -1,13 +1,6 @@
-import 'package:appolmedo/src/controller/administrador/chofer.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChoferAcc {
-  final DatabaseReference _choferesRef =
-      FirebaseDatabase.instance.reference().child('usuarios/choferes');
-
-  Query getChoferes() => _choferesRef;
-
-  void guardarChofer(Choferdb chofer) {
-    _choferesRef.child(chofer.id.toString()).set(chofer.toJson());
-  }
+  CollectionReference<Map<String, dynamic>> choferesRef =
+      FirebaseFirestore.instance.collection("choferes");
 }
