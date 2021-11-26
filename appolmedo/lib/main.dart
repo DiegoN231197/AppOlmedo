@@ -72,19 +72,17 @@ class _LoginPageState extends State<LoginPage> {
   bool getData(String name, String password) {
     String nombre = name;
     String contrasena = password;
-    bool verdadero = false;
+    bool esIgual = false;
 
     for (int i = 0; i < choferesList.length; i++) {
       if ((choferesList[i]['nombre'] == nombre) &&
-          (choferesList[i]['password'] == contrasena)) {
-        i = choferesList.length;
+          (choferesList[i]['contrasena'] == contrasena)) {
         print("validate");
-        verdadero = true;
-      } else {
-        print("error");
+        esIgual = true;
+        i = choferesList.length;
       }
     }
-    return verdadero;
+    return esIgual;
   }
 
   //llave para validar el Form
@@ -250,22 +248,22 @@ class _LoginPageState extends State<LoginPage> {
                                 builder: (context) => Choferes(),
                               ),
                             );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.blueGrey.shade600,
-                                content: Text(
-                                  "Datos Incorrectos",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
                           }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.blueGrey.shade600,
+                              content: Text(
+                                "Datos Incorrectos",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
                         }
                       },
                       shape: RoundedRectangleBorder(

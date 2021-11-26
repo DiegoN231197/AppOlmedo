@@ -38,6 +38,7 @@ class _SelectCamionState extends State<SelectCamion> {
 
   //late Future<DropdownMenuItem<List<dynamic>>> camiones = _getPatente();
 
+  TextEditingController _controllerpatente = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,10 +105,11 @@ class _SelectCamionState extends State<SelectCamion> {
               new MaterialButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Datosruta(_controllerpatente.text)));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Datosruta(_controllerpatente.text),
+                    ),
+                  );
                 },
                 height: 50,
                 minWidth: 300,
@@ -133,5 +135,3 @@ class _SelectCamionState extends State<SelectCamion> {
     return patentes;
   } */
 }
-
-TextEditingController _controllerpatente = TextEditingController();
