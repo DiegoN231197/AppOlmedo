@@ -2,10 +2,12 @@
 import 'dart:io';
 //import 'package:appolmedo/src/controller/guia/guia.dart';
 import 'package:appolmedo/src/controller/guia/guia_acc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ConfirmacionEntregas extends StatefulWidget {
   ConfirmacionEntregas({Key? key}) : super(key: key);
@@ -21,6 +23,40 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   //Opciones lista ESTADO ENTREGA
   var estado = ["Entregado", "Parcialmente Entregado", "No entregado"];
   String lista = "Estado de entrega";
+
+  bool _guia = false;
+
+  List guiasList = [];
+
+  void getGuias() async {
+    CollectionReference choferesCollection =
+        FirebaseFirestore.instance.collection("guias");
+
+    QuerySnapshot guias = await choferesCollection.get();
+
+    if (guias.docs.length != 0) {
+      for (var guia in guias.docs) {
+        guiasList.add(guia.data());
+      }
+    }
+    print(guiasList);
+  }
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  bool getData(String idRef) {
+    String id = idRef;
+    bool esIgual = false;
+
+    for (int i = 0; i < guiasList.length; i++) {
+      if ((guiasList[i]['id'] == id)) {
+        print("validate");
+        esIgual = true;
+        i = guiasList.length;
+      }
+    }
+    return esIgual;
+  }
 
   Widget estados(Color color) {
     return Container(
@@ -47,8 +83,12 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     );
   }
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    guiasList.clear();
+    getGuias();
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.orange[600],
@@ -159,10 +199,31 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
               new MaterialButton(
                 onPressed: () {
                   //final guia = Guia(numguia, rut, nombrecliente, numcontacto, fecha, direccion, comuna, region)
-                  GuiaAcc().confirmarGuias(_controllerNumGuia.text);
-                  Route route =
-                      MaterialPageRoute(builder: (contex) => Choferes());
-                  Navigator.push(context, route);
+                  if (formKey.currentState!.validate()) {
+                    _guia = getData(_controllerNumGuia.text);
+                    if (_guia == true) {
+                      GuiaAcc().confirmarGuias(_controllerNumGuia.text);
+                      cargarimagen();
+                      Route route =
+                          MaterialPageRoute(builder: (contex) => Choferes());
+                      Navigator.push(context, route);
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.blueGrey.shade600,
+                        content: Text(
+                          "Ingrese los datos",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  }
                 },
                 height: 40,
                 minWidth: 60,
@@ -178,6 +239,28 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
         ),
       ),
     );
+  }
+
+  void cargarimagen() async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference ref = storage.ref().child("/imagenes");
+    UploadTask uploadTask =
+        ref.child(_controllerNumGuia.text + ".jpg").putFile(_imageFile!);
+
+    String url = await (await uploadTask).ref.getDownloadURL();
+
+    enviarimagen(url);
+    Route route = MaterialPageRoute(builder: (contex) => Choferes());
+    Navigator.push(context, route);
+  }
+
+  void enviarimagen(String url) {
+    print("firestore -->" + url);
+    FirebaseFirestore imgref = FirebaseFirestore.instance;
+    imgref
+        .collection('fotos')
+        .doc(_controllerNumGuia.text)
+        .set({"imagenes": url});
   }
 
   //Función que arroja opciones al apretar el botón de adjuntar imagen
