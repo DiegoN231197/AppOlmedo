@@ -20,8 +20,4 @@ class GuiaAcc {
       'chofer': guia.chofer
     });
   }
-
-  void confirmarGuias(numguia) {
-    guiasRef.collection('guias').doc(numguia).update({'estado': "true"});
-  }
 }

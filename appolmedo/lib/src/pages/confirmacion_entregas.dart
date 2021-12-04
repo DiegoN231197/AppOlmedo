@@ -1,7 +1,7 @@
 //import 'dart:html';
 import 'dart:io';
 //import 'package:appolmedo/src/controller/guia/guia.dart';
-import 'package:appolmedo/src/controller/guia/guia_acc.dart';
+//import 'package:appolmedo/src/controller/guia/guia_acc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +69,9 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   //casilla de texto grande para poner datos sobre la entrega
   final controller = TextEditingController();
   final _controllerNumGuia = TextEditingController();
+  //final _controllerFecha = TextEditingValue();
+  //final _controllerHora = TextEditingValue();
+
   Widget mensajeEntrega() {
     return TextField(
       controller: this.controller,
@@ -89,6 +92,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   Widget build(BuildContext context) {
     guiasList.clear();
     getGuias();
+
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.orange[600],
@@ -96,152 +100,181 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 35),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              const SizedBox(height: 20),
-              //casilla n° guia
-              TextFormField(
-                controller: _controllerNumGuia,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.content_paste,
-                    color: Colors.black,
+        child: Form(
+          key: formKey,
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                const SizedBox(height: 20),
+                //casilla n° guia
+                TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return '*Requerido';
+                    } else {
+                      return null;
+                    }
+                  },
+                  controller: _controllerNumGuia,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.content_paste,
+                      color: Colors.black,
+                    ),
+                    labelText: "Número de guía",
                   ),
-                  labelText: "Número de guía",
+                  keyboardType: TextInputType.number,
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 20),
-              //casilla fecha de entrega
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.date_range,
-                    color: Colors.black,
+                const SizedBox(height: 20),
+                //casilla fecha de entrega
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.date_range,
+                      color: Colors.black,
+                    ),
+                    labelText: "Fecha de entrega",
                   ),
-                  labelText: "Fecha de entrega",
+                  initialValue: fechaActual(),
+                  keyboardType: TextInputType.datetime,
                 ),
-                initialValue: fechaActual(),
-                keyboardType: TextInputType.datetime,
-              ),
 
-              const SizedBox(height: 20),
-              //casilla hora de entrega
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.timer,
-                    color: Colors.black,
+                const SizedBox(height: 20),
+                //casilla hora de entrega
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.timer,
+                      color: Colors.black,
+                    ),
+                    labelText: "Hora de entrega",
                   ),
-                  labelText: "Hora de entrega",
+                  initialValue: horaActual(),
+                  keyboardType: TextInputType.datetime,
                 ),
-                initialValue: horaActual(),
-                keyboardType: TextInputType.datetime,
-              ),
 
-              const SizedBox(height: 20),
-              Text(
-                "Estado de la entrega",
-                style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.orange[600],
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold),
-              ),
+                const SizedBox(height: 20),
+                Text(
+                  "Estado de la entrega",
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.orange[600],
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold),
+                ),
 
-              const SizedBox(height: 20),
-              DropdownButton(
-                elevation: 30,
-                iconSize: 30,
-                items: estado.map((String b) {
-                  return DropdownMenuItem(value: b, child: Text(b));
-                }).toList(),
-                onChanged: (datonuevo) => {
-                  setState(() {
-                    lista = datonuevo.toString();
-                    valoritem.valorestado =
-                        lista; //se guarda en valoritem.valorestado el estado seleccionado para trabajar con él
-                  })
-                },
-                hint: Text(lista),
-              ),
-              if (valoritem.valorestado == "Parcialmente Entregado" ||
-                  valoritem.valorestado == "No entregado")
-                mensajeEntrega(),
+                const SizedBox(height: 20),
+                DropdownButton(
+                  elevation: 30,
+                  iconSize: 30,
+                  items: estado.map((String b) {
+                    return DropdownMenuItem(value: b, child: Text(b));
+                  }).toList(),
+                  onChanged: (datonuevo) => {
+                    setState(() {
+                      lista = datonuevo.toString();
+                      valoritem.valorestado =
+                          lista; //se guarda en valoritem.valorestado el estado seleccionado para trabajar con él
+                    })
+                  },
+                  hint: Text(lista),
+                ),
+                if (valoritem.valorestado == "Parcialmente Entregado" ||
+                    valoritem.valorestado == "No entregado")
+                  mensajeEntrega(),
 
-              Center(
-                child: IconButton(
+                Center(
+                  child: IconButton(
                     iconSize: 32.0,
                     icon: const Icon(Icons.attach_file),
                     tooltip: 'Adjuntar imágen',
-                    onPressed: _opcionesadjuntar),
-              ),
-              Text("Adjuntar imágen"),
-              const SizedBox(height: 20),
+                    onPressed: _opcionesadjuntar,
+                  ),
+                ),
+                Text("Adjuntar imágen"),
+                const SizedBox(height: 20),
 
-              //condicion para que aparezca la imagen cuando se selecciona una debajo del boton de adjuntar
-              if (this._imageFile == null)
-                Center()
-              else
-                Image.file(this._imageFile!),
+                //condicion para que aparezca la imagen cuando se selecciona una debajo del boton de adjuntar
+                if (this._imageFile == null)
+                  Center()
+                else
+                  Image.file(this._imageFile!),
 
-              const SizedBox(height: 20),
-              //boton enviar info
-              new MaterialButton(
-                onPressed: () {
-                  //final guia = Guia(numguia, rut, nombrecliente, numcontacto, fecha, direccion, comuna, region)
-                  if (formKey.currentState!.validate()) {
-                    _guia = getData(_controllerNumGuia.text);
-                    if (_guia == true) {
-                      GuiaAcc().confirmarGuias(_controllerNumGuia.text);
-                      cargarimagen();
-                      Route route =
-                          MaterialPageRoute(builder: (contex) => Choferes());
-                      Navigator.push(context, route);
-                    }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: Colors.blueGrey.shade600,
-                        content: Text(
-                          "Ingrese los datos",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                //boton enviar info
+                new MaterialButton(
+                  onPressed: () {
+                    //final guia = Guia(numguia, rut, nombrecliente, numcontacto, fecha, direccion, comuna, region)
+                    if (formKey.currentState!.validate()) {
+                      _guia = getData(_controllerNumGuia.text);
+                      if (_guia == true) {
+                        cargarimagen(
+                            horaActual(), fechaActual(), valoritem.valorestado);
+                        Route route =
+                            MaterialPageRoute(builder: (contex) => Choferes());
+                        Navigator.push(context, route);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.blueGrey.shade600,
+                            content: Text(
+                              "N° de guía no encontrada",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
+                        );
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.blueGrey.shade600,
+                          content: Text(
+                            "Ingrese los datos",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                },
-                height: 40,
-                minWidth: 60,
-                child:
-                    Text("Enviar información", style: TextStyle(fontSize: 20)),
-                color: Colors.orange[600],
-                splashColor: Colors.blue,
-                textColor: Colors.white,
-              ),
-              const SizedBox(height: 30),
-            ],
+                      );
+                    }
+                  },
+                  height: 40,
+                  minWidth: 60,
+                  child: Text("Enviar información",
+                      style: TextStyle(fontSize: 20)),
+                  color: Colors.orange[600],
+                  splashColor: Colors.blue,
+                  textColor: Colors.white,
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void cargarimagen() async {
+  void cargarimagen(String hora, String fecha, String estado) async {
+    String horaEntrega = hora;
+    String fechaEntrega = fecha;
+    String estadoEntrega = estado;
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child("/imagenes");
     UploadTask uploadTask =
@@ -249,18 +282,24 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
 
     String url = await (await uploadTask).ref.getDownloadURL();
 
-    enviarimagen(url);
+    enviarimagen(url, horaEntrega, fechaEntrega, estadoEntrega);
     Route route = MaterialPageRoute(builder: (contex) => Choferes());
     Navigator.push(context, route);
   }
 
-  void enviarimagen(String url) {
+  void enviarimagen(String url, String hora, String fecha, String estado) {
+    String horaEntrega = hora;
+    String fechaEntrega = fecha;
+    String estadoEntrega = estado;
     print("firestore -->" + url);
     FirebaseFirestore imgref = FirebaseFirestore.instance;
-    imgref
-        .collection('fotos')
-        .doc(_controllerNumGuia.text)
-        .set({"imagenes": url});
+    imgref.collection('guias').doc(_controllerNumGuia.text).update({
+      'estado': estadoEntrega,
+      "imagen": url,
+      'fechaEntrega': fechaEntrega,
+      'horaEntrega': horaEntrega
+    });
+    print("guia confirmada");
   }
 
   //Función que arroja opciones al apretar el botón de adjuntar imagen

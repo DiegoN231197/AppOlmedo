@@ -248,7 +248,9 @@ class _DatosrutaState extends State<Datosruta> {
                             widget.patent,
                             "");
                         GuiaAcc().guardarGuias(guia);
-                        Navigator.pushReplacementNamed(context, '/datosruta');
+                        Route route =
+                            MaterialPageRoute(builder: (contex) => Choferes());
+                        Navigator.push(context, route);
                       },
                       height: 40,
                       minWidth: 60,
