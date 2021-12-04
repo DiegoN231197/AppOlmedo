@@ -2,8 +2,6 @@ import 'dart:core';
 
 import 'package:appolmedo/src/pages/datosruta.dart';
 import 'package:appolmedo/src/pages/widgets/logo_horizontal_azul.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 
@@ -15,28 +13,7 @@ class SelectCamion extends StatefulWidget {
 }
 
 class _SelectCamionState extends State<SelectCamion> {
-  //datos para usar en la lista desplegable de patente de camiones
-
-/*   void initState() {
-    super.initState();
-  }
-
-  void getChofer() async {
-    CollectionReference choferesCollection =
-        FirebaseFirestore.instance.collection("choferes");
-
-    QuerySnapshot choferes = await choferesCollection.get();
-
-    if (choferes.docs.length != 0) {
-      for (var chofer in choferes.docs) {
-        print(chofer.data());
-      }
-    }
-  } */
-
   String datolista = 'Patente camión';
-
-  //late Future<DropdownMenuItem<List<dynamic>>> camiones = _getPatente();
 
   TextEditingController _controllerpatente = TextEditingController();
   @override
@@ -98,7 +75,18 @@ class _SelectCamionState extends State<SelectCamion> {
                   ),
                 ),
               ),
-
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
+                  icon: Icon(
+                    Icons.local_shipping,
+                    color: Colors.black,
+                  ),
+                  labelText: "Odometro inicial del camión",
+                ),
+              ),
               const SizedBox(height: 50),
 
               //boton continuar

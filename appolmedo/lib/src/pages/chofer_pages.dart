@@ -32,22 +32,6 @@ class _ChoferesState extends State<Choferes> {
 
   var patentes = ["Lista de camiones"];
 
-  /* Widget _getListaCamiones() {
-    return Expanded(
-      child: FirebaseAnimatedList(
-        controller: _scrollController,
-        query: widget.camionAcc.getCamiones(),
-        itemBuilder: (context, snapshot, animation, index) {
-          final json = snapshot.value as Map<dynamic, dynamic>;
-          final camion = Camiondb.fromJson(json);
-          patentes.add(camion.patente);
-
-          return WidgetCamiones(camion.patente);
-        },
-      ),
-    );
-  } */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +42,7 @@ class _ChoferesState extends State<Choferes> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/LoginPage');
+              Navigator.pushReplacementNamed(context, '/cerrarsesion');
             },
             icon: const Icon(Icons.exit_to_app),
           ),

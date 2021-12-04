@@ -1,7 +1,6 @@
 //import 'dart:html';
 import 'dart:io';
-//import 'package:appolmedo/src/controller/guia/guia.dart';
-//import 'package:appolmedo/src/controller/guia/guia_acc.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -69,8 +68,6 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   //casilla de texto grande para poner datos sobre la entrega
   final controller = TextEditingController();
   final _controllerNumGuia = TextEditingController();
-  //final _controllerFecha = TextEditingValue();
-  //final _controllerHora = TextEditingValue();
 
   Widget mensajeEntrega() {
     return TextField(

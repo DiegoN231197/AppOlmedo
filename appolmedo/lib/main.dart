@@ -5,6 +5,7 @@ import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:appolmedo/src/pages/olvido_contrase%C3%B1a.dart';
 import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
+import 'package:appolmedo/src/pages/cerrarsesion.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,8 @@ class AppOlmedo extends StatelessWidget {
           '/selectCamion': (BuildContext context) => new SelectCamion(),
           '/confirmacionEntregas': (BuildContext context) =>
               new ConfirmacionEntregas(),
-          '/solicitud': (BuildContext context) => new Solicitud()
+          '/solicitud': (BuildContext context) => new Solicitud(),
+          '/cerrarsesion': (BuildContext context) => new Cerrarsesion()
         });
   }
 }
