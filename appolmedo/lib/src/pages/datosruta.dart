@@ -234,8 +234,6 @@ class _DatosrutaState extends State<Datosruta> {
                     const SizedBox(width: 30),
                     new MaterialButton(
                       onPressed: () {
-                        /*  Route route = MaterialPageRoute(
-                                    builder: (contex) => DatosRuta()); */
                         final guia = Guia(
                             _controllernumguia.text,
                             _controllerrutcliente.text,
@@ -248,7 +246,9 @@ class _DatosrutaState extends State<Datosruta> {
                             widget.patent,
                             "");
                         GuiaAcc().guardarGuias(guia);
-                        Navigator.pushReplacementNamed(context, '/datosruta');
+                        Route route =
+                            MaterialPageRoute(builder: (contex) => Choferes());
+                        Navigator.push(context, route);
                       },
                       height: 40,
                       minWidth: 60,

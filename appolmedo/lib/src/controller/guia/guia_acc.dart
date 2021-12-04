@@ -15,13 +15,9 @@ class GuiaAcc {
       'direccion': guia.direccion,
       'comuna': guia.comuna,
       'region': guia.region,
-      'estado': "false",
+      'estado': "pendiente",
       'camion': guia.patente,
       'chofer': guia.chofer
     });
-  }
-
-  void confirmarGuias(numguia) {
-    guiasRef.collection('guias').doc(numguia).update({'estado': "true"});
   }
 }

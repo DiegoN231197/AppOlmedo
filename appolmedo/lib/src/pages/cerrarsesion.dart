@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:appolmedo/src/pages/chofer_pages.dart';
-import 'package:appolmedo/src/pages/selectCamion.dart';
 
 class Cerrarsesion extends StatefulWidget {
   Cerrarsesion({Key? key}) : super(key: key);
