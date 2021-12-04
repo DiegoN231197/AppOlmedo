@@ -258,7 +258,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     print("firestore -->" + url);
     FirebaseFirestore imgref = FirebaseFirestore.instance;
     imgref
-        .collection('fotos')
+        .collection('confirmaciones')
         .doc(_controllerNumGuia.text)
         .set({"imagenes": url});
   }

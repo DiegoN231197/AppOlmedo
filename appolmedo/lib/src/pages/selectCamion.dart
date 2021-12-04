@@ -98,7 +98,18 @@ class _SelectCamionState extends State<SelectCamion> {
                   ),
                 ),
               ),
-
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
+                  icon: Icon(
+                    Icons.local_shipping,
+                    color: Colors.black,
+                  ),
+                  labelText: "Odometro inicial del camión",
+                ),
+              ),
               const SizedBox(height: 50),
 
               //boton continuar

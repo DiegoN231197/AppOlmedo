@@ -58,7 +58,7 @@ class _ChoferesState extends State<Choferes> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/LoginPage');
+              Navigator.pushReplacementNamed(context, '/cerrarsesion');
             },
             icon: const Icon(Icons.exit_to_app),
           ),
