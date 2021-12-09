@@ -244,6 +244,7 @@ class _DatosrutaState extends State<Datosruta> {
                             _controllerncomuna.text,
                             Valoritem.valorregion,
                             widget.patent,
+                            "",
                             "");
                         GuiaAcc().guardarGuias(guia);
                         Route route =

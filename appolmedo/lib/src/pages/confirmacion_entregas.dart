@@ -28,10 +28,10 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   List guiasList = [];
 
   void getGuias() async {
-    CollectionReference choferesCollection =
+    CollectionReference guiasCollection =
         FirebaseFirestore.instance.collection("guias");
 
-    QuerySnapshot guias = await choferesCollection.get();
+    QuerySnapshot guias = await guiasCollection.get();
 
     if (guias.docs.length != 0) {
       for (var guia in guias.docs) {
@@ -41,7 +41,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     print(guiasList);
   }
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   bool getData(String idRef) {
     String id = idRef;

@@ -19,15 +19,6 @@ class Choferes extends StatefulWidget {
 }
 
 class _ChoferesState extends State<Choferes> {
-  TextEditingController _controllernumguia = TextEditingController();
-  TextEditingController _controllerrutcliente = TextEditingController();
-  TextEditingController _controllernombre = TextEditingController();
-  TextEditingController _controllernumero = TextEditingController();
-  TextEditingController _controllerfecha = TextEditingController();
-  TextEditingController _controllerdireccion = TextEditingController();
-  TextEditingController _controllerncomuna = TextEditingController();
-  TextEditingController _controllerregion = TextEditingController();
-  TextEditingController _controllerpatente = TextEditingController();
   //Future TextEditingController _lista = TextEditingController();
 
   var patentes = ["Lista de camiones"];
@@ -80,19 +71,11 @@ class _ChoferesState extends State<Choferes> {
               color: Colors.orange[600],
               onPressed: () => {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (contex) => ListadoRutas(
-                          _controllernumguia.text,
-                          _controllerrutcliente.text,
-                          _controllernombre.text,
-                          _controllernumero.text,
-                          _controllerfecha.text,
-                          _controllerdireccion.text,
-                          _controllerncomuna.text,
-                          _controllerregion.text,
-                          _controllerpatente.text),
-                    ))
+                  context,
+                  MaterialPageRoute(
+                    builder: (contex) => ListadoRutas(),
+                  ),
+                )
               },
               splashColor: Colors.blue,
               shape: RoundedRectangleBorder(

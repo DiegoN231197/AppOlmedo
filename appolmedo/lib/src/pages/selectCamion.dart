@@ -14,8 +14,8 @@ class SelectCamion extends StatefulWidget {
 
 class _SelectCamionState extends State<SelectCamion> {
   String datolista = 'Patente camión';
-
   TextEditingController _controllerpatente = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
