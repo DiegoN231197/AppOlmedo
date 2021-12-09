@@ -4,7 +4,7 @@ import 'package:appolmedo/src/controller/guia/guia_acc.dart';
 //import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
-//import 'package:dart_rut_validator/dart_rut_validator.dart';
+import 'package:dart_rut_validator/dart_rut_validator.dart';
 
 class Datosruta extends StatefulWidget {
   final String patent;
@@ -115,10 +115,10 @@ class _DatosrutaState extends State<Datosruta> {
                 //casilla rut
                 TextFormField(
                   controller: _controllerrutcliente,
-                  //onChanged: onChangedApplyFormat,
-                  /* validator:
+                  onChanged: onChangedApplyFormat,
+                  validator:
                       RUTValidator(validationErrorText: "Ingrese RUT válido")
-                          .validator, */
+                          .validator,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     filled: true,
@@ -328,9 +328,9 @@ class _DatosrutaState extends State<Datosruta> {
   }
 
 //llenado de puntos automaticos del rut
-  /* void onChangedApplyFormat(String text) {
+  void onChangedApplyFormat(String text) {
     RUTValidator.formatFromTextController(_controllerrutcliente);
-  }*/
+  }
 }
 
 String fechaActual() {
