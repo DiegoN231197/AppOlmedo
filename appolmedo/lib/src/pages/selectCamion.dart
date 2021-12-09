@@ -1,5 +1,4 @@
 import 'dart:core';
-
 import 'package:appolmedo/src/pages/datosruta.dart';
 import 'package:appolmedo/src/pages/widgets/logo_horizontal_azul.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ class _SelectCamionState extends State<SelectCamion> {
   String datolista = 'Patente camión';
 
   TextEditingController _controllerpatente = TextEditingController();
+  TextEditingController _controllerodo = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +78,7 @@ class _SelectCamionState extends State<SelectCamion> {
               ),
               const SizedBox(height: 20),
               TextFormField(
+                controller: _controllerodo,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   filled: true,
