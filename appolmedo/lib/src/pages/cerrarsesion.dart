@@ -7,6 +7,9 @@ class Cerrarsesion extends StatefulWidget {
   _CerrarsesionState createState() => _CerrarsesionState();
 }
 
+final _controllerPatFinal = TextEditingController();
+final _controllerOdoFinal = TextEditingController();
+
 class _CerrarsesionState extends State<Cerrarsesion> {
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,35 @@ class _CerrarsesionState extends State<Cerrarsesion> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              const SizedBox(
-                height: 20,
+              const SizedBox(height: 10),
+              new Text(
+                "Para cerrar sesión ingrese los siguientes datos",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.orange[600],
+                    fontFamily: 'Sansation',
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              const SizedBox(height: 20),
+              //casilla patente
+              TextFormField(
+                controller: _controllerPatFinal,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
+                  icon: Icon(
+                    Icons.car_repair_rounded,
+                    color: Colors.black,
+                  ),
+                  labelText: "Camión utilizado",
+                ),
+              ),
+              const SizedBox(height: 20),
               //casilla fecha de entrega
               TextFormField(
                 decoration: const InputDecoration(
@@ -58,6 +87,7 @@ class _CerrarsesionState extends State<Cerrarsesion> {
               //casilla odometro
               const SizedBox(height: 20),
               TextFormField(
+                controller: _controllerOdoFinal,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   filled: true,
@@ -66,14 +96,16 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                     color: Colors.black,
                   ),
                   labelText: "Odometro final del camión",
+                  prefixText: "KM: ",
                 ),
+                keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
               mensajeDetalle(),
               const SizedBox(height: 20),
               new MaterialButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/LoginPage');
+                  Navigator.pushReplacementNamed(context, '/login');
                 },
                 height: 40,
                 minWidth: 60,
