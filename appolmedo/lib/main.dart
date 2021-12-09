@@ -244,6 +244,8 @@ class _LoginPageState extends State<LoginPage> {
                           _login =
                               getData(controllerUser.text, controllerPass.text);
                           if (_login == true) {
+                            controllerPass.clear();
+                            controllerUser.clear();
                             Navigator.push(
                               context,
                               MaterialPageRoute(

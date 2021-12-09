@@ -24,6 +24,7 @@ class _SelectCamionState extends State<SelectCamion> {
         title: Text('Generar Ruta'),
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 35),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -85,7 +86,9 @@ class _SelectCamionState extends State<SelectCamion> {
                     color: Colors.black,
                   ),
                   labelText: "Odometro inicial del camión",
+                  prefixText: "KM: ",
                 ),
+                keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 50),
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:appolmedo/src/pages/chofer_pages.dart';
 
 class Cerrarsesion extends StatefulWidget {
   Cerrarsesion({Key? key}) : super(key: key);
@@ -66,14 +67,16 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                     color: Colors.black,
                   ),
                   labelText: "Odometro final del camión",
+                  prefixText: "KM: ",
                 ),
+                keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
               mensajeDetalle(),
               const SizedBox(height: 20),
               new MaterialButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/LoginPage');
+                  Navigator.pushReplacementNamed(context, '/login');
                 },
                 height: 40,
                 minWidth: 60,
