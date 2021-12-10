@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:appolmedo/src/pages/chofer_pages.dart';
+import 'package:masked_text/masked_text.dart';
 
 class Cerrarsesion extends StatefulWidget {
-  final String fecha;
-  Cerrarsesion(this.fecha, {Key? key}) : super(key: key);
+  Cerrarsesion({Key? key}) : super(key: key);
 
   @override
   _CerrarsesionState createState() => _CerrarsesionState();
@@ -12,7 +11,7 @@ class Cerrarsesion extends StatefulWidget {
 
 final _controllerPatFinal = TextEditingController();
 final _controllerOdoFinal = TextEditingController();
-final _controlleridinicial = TextEditingController();
+final _controllerfechainicio = TextEditingController();
 
 class _CerrarsesionState extends State<Cerrarsesion> {
   @override
@@ -47,6 +46,8 @@ class _CerrarsesionState extends State<Cerrarsesion> {
               //casilla patente
               TextFormField(
                 controller: _controllerPatFinal,
+                textCapitalization: TextCapitalization.characters,
+                maxLength: 6,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   filled: true,
@@ -56,26 +57,25 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                   ),
                   labelText: "Camión utilizado",
                 ),
-                textCapitalization: TextCapitalization.characters,
               ),
               const SizedBox(height: 20),
-
-              TextFormField(
-                //controller: _controlleridinicial,
-                initialValue: widget.fecha,
-                decoration: const InputDecoration(
+              //fecha inicio
+              new MaskedTextField(
+                maskedTextFieldController: _controllerfechainicio,
+                mask: "xx-xx-xxxx",
+                maxLength: 10,
+                keyboardType: TextInputType.datetime,
+                inputDecoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   filled: true,
                   icon: Icon(
-                    Icons.car_repair_rounded,
+                    Icons.date_range_outlined,
                     color: Colors.black,
                   ),
-                  labelText: "fecha inicio",
+                  labelText: "Fecha toma de camión",
                 ),
-                textCapitalization: TextCapitalization.characters,
               ),
-              const SizedBox(height: 20),
-              //casilla fecha de entrega
+              const SizedBox(height: 10),
               TextFormField(
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
@@ -84,7 +84,7 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                     Icons.date_range,
                     color: Colors.black,
                   ),
-                  labelText: "Fecha de entrega",
+                  labelText: "Fecha de entrega de camión",
                 ),
                 initialValue: fechaActual(),
                 keyboardType: TextInputType.datetime,
@@ -117,7 +117,7 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                     color: Colors.black,
                   ),
                   labelText: "Odometro final del camión",
-                  prefixText: "KM: ",
+                  hintText: "KM: ",
                 ),
                 keyboardType: TextInputType.number,
               ),
@@ -126,14 +126,11 @@ class _CerrarsesionState extends State<Cerrarsesion> {
               const SizedBox(height: 20),
               new MaterialButton(
                 onPressed: () {
-                  finalizarRuta(
-                      _controllerOdoFinal.text,
-                      _controllerPatFinal.text,
-                      detallecontroller.text,
-                      _controlleridinicial.text);
-
-                  _controllerOdoFinal.clear();
                   Navigator.pushReplacementNamed(context, '/login');
+                  _controllerOdoFinal.clear();
+                  _controllerPatFinal.clear();
+                  _controllerfechainicio.clear();
+                  detallecontroller.clear();
                 },
                 height: 40,
                 minWidth: 60,
@@ -179,26 +176,5 @@ class _CerrarsesionState extends State<Cerrarsesion> {
     var now = new DateTime.now();
     var hora = (now.hour.toString() + ":" + now.minute.toString());
     return hora;
-  }
-
-  void finalizarRuta(
-      String odometro, String patente, String datos, String fechainicial) {
-    String odometroFinal = odometro;
-    String patenteCamion = patente;
-    String datosRuta = datos;
-    String idRuta = fechainicial;
-
-    FirebaseFirestore ref = FirebaseFirestore.instance;
-    ref
-        .collection('camiones')
-        .doc(patenteCamion)
-        .collection('historial')
-        .doc(idRuta + patenteCamion)
-        .update({
-      'odometro final': odometroFinal,
-      'fecha final': fechaActual(),
-      'Hora de entrega': horaActual(),
-      'detalles ruta': datosRuta
-    });
   }
 }
