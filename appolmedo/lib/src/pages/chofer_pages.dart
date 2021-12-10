@@ -11,7 +11,9 @@ import 'widgets/logo_horizontal_azul.dart';
 
 // ignore: must_be_immutable
 class Choferes extends StatefulWidget {
-  Choferes({Key? key}) : super(key: key);
+  String fecha;
+  String rutChofer;
+  Choferes(this.fecha, this.rutChofer, {Key? key}) : super(key: key);
 
   final camionAcc = CamionAcc();
 
@@ -23,9 +25,11 @@ class _ChoferesState extends State<Choferes> {
   //Future TextEditingController _lista = TextEditingController();
 
   var patentes = ["Lista de camiones"];
-
   @override
   Widget build(BuildContext context) {
+    String idRuta = widget.fecha;
+    print("chofer");
+    print(widget.rutChofer);
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -36,12 +40,9 @@ class _ChoferesState extends State<Choferes> {
           actions: <Widget>[
             IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Cerrarsesion(),
-                  ),
-                );
+                Route route = MaterialPageRoute(
+                    builder: (contex) => Cerrarsesion(idRuta));
+                Navigator.push(context, route);
               },
               icon: const Icon(Icons.exit_to_app),
             ),
@@ -104,8 +105,8 @@ class _ChoferesState extends State<Choferes> {
                 ),
                 onPressed: () {
                   //verpatentes();
-                  Route route =
-                      MaterialPageRoute(builder: (contex) => SelectCamion());
+                  Route route = MaterialPageRoute(
+                      builder: (contex) => SelectCamion(widget.rutChofer));
                   Navigator.push(context, route);
                 },
                 splashColor: Colors.blue,
@@ -127,7 +128,7 @@ class _ChoferesState extends State<Choferes> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (contex) => ConfirmacionEntregas(),
+                      builder: (contex) => ConfirmacionEntregas("", ""),
                     ),
                   ),
                 },

@@ -11,7 +11,7 @@ class ListadoRutas extends StatefulWidget {
 }
 
 class _ListadoRutasState extends State<ListadoRutas> {
-  final List guiasList = [];
+  List guiasList = [];
 
   void getGuias() async {
     CollectionReference guiasCollection =
@@ -50,6 +50,7 @@ class _ListadoRutasState extends State<ListadoRutas> {
 
   @override
   Widget build(BuildContext context) {
+    //guiasList.clear();
     getGuias();
     /* return Scaffold(
       appBar: new AppBar(
