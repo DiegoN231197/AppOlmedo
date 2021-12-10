@@ -11,7 +11,9 @@ import 'widgets/logo_horizontal_azul.dart';
 
 // ignore: must_be_immutable
 class Choferes extends StatefulWidget {
-  Choferes({Key? key}) : super(key: key);
+  String fecha;
+  String rutChofer;
+  Choferes(this.fecha, this.rutChofer, {Key? key}) : super(key: key);
 
   final camionAcc = CamionAcc();
 
@@ -20,21 +22,14 @@ class Choferes extends StatefulWidget {
 }
 
 class _ChoferesState extends State<Choferes> {
-  TextEditingController _controllernumguia = TextEditingController();
-  TextEditingController _controllerrutcliente = TextEditingController();
-  TextEditingController _controllernombre = TextEditingController();
-  TextEditingController _controllernumero = TextEditingController();
-  TextEditingController _controllerfecha = TextEditingController();
-  TextEditingController _controllerdireccion = TextEditingController();
-  TextEditingController _controllerncomuna = TextEditingController();
-  TextEditingController _controllerregion = TextEditingController();
-  TextEditingController _controllerpatente = TextEditingController();
   //Future TextEditingController _lista = TextEditingController();
 
   var patentes = ["Lista de camiones"];
-
   @override
   Widget build(BuildContext context) {
+    String idRuta = widget.fecha;
+    print("chofer");
+    print(widget.rutChofer);
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -45,12 +40,9 @@ class _ChoferesState extends State<Choferes> {
           actions: <Widget>[
             IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Cerrarsesion(),
-                  ),
-                );
+                Route route = MaterialPageRoute(
+                    builder: (contex) => Cerrarsesion(idRuta));
+                Navigator.push(context, route);
               },
               icon: const Icon(Icons.exit_to_app),
             ),
@@ -88,19 +80,9 @@ class _ChoferesState extends State<Choferes> {
                 color: Colors.orange[600],
                 onPressed: () => {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (contex) => ListadoRutas(
-                            _controllernumguia.text,
-                            _controllerrutcliente.text,
-                            _controllernombre.text,
-                            _controllernumero.text,
-                            _controllerfecha.text,
-                            _controllerdireccion.text,
-                            _controllerncomuna.text,
-                            _controllerregion.text,
-                            _controllerpatente.text),
-                      ))
+                    context,
+                    MaterialPageRoute(builder: (contex) => ListadoRutas()),
+                  ),
                 },
                 splashColor: Colors.blue,
                 shape: RoundedRectangleBorder(
@@ -123,8 +105,8 @@ class _ChoferesState extends State<Choferes> {
                 ),
                 onPressed: () {
                   //verpatentes();
-                  Route route =
-                      MaterialPageRoute(builder: (contex) => SelectCamion());
+                  Route route = MaterialPageRoute(
+                      builder: (contex) => SelectCamion(widget.rutChofer));
                   Navigator.push(context, route);
                 },
                 splashColor: Colors.blue,
@@ -146,7 +128,7 @@ class _ChoferesState extends State<Choferes> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (contex) => ConfirmacionEntregas(),
+                      builder: (contex) => ConfirmacionEntregas("", ""),
                     ),
                   ),
                 },

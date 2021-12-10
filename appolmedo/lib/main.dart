@@ -3,9 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:appolmedo/src/pages/olvido_contrase%C3%B1a.dart';
-import 'package:appolmedo/src/pages/selectCamion.dart';
-import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
-import 'package:appolmedo/src/pages/cerrarsesion.dart';
+//import 'package:appolmedo/src/pages/selectCamion.dart';
+//import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
+//import 'package:appolmedo/src/pages/cerrarsesion.dart';
+//import 'package:appolmedo/src/controller/user/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,13 +23,13 @@ class AppOlmedo extends StatelessWidget {
         home: LoginPage(),
         routes: <String, WidgetBuilder>{
           '/login': (BuildContext context) => new LoginPage(),
-          '/choferPages': (BuildContext context) => new Choferes(),
-          '/LoginPage': (BuildContext context) => LoginPage(),
-          '/selectCamion': (BuildContext context) => new SelectCamion(),
-          '/confirmacionEntregas': (BuildContext context) =>
-              new ConfirmacionEntregas(),
-          '/solicitud': (BuildContext context) => new Solicitud(),
-          '/cerrarsesion': (BuildContext context) => new Cerrarsesion()
+          //'/choferPages': (BuildContext context) => new Choferes("", ""),
+          //'/LoginPage': (BuildContext context) => LoginPage(),
+          //'/selectCamion': (BuildContext context) => new SelectCamion(),
+          //'/confirmacionEntregas': (BuildContext context) =>
+          //    new ConfirmacionEntregas("", ""),
+          //'/solicitud': (BuildContext context) => new Solicitud(),
+          //'/cerrarsesion': (BuildContext context) => new Cerrarsesion("", "")
         });
   }
 }
@@ -43,6 +44,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerUser = new TextEditingController();
   TextEditingController controllerPass = new TextEditingController();
+  //User userLogin = newObject();
 
   void initState() {
     super.initState();
@@ -244,12 +246,11 @@ class _LoginPageState extends State<LoginPage> {
                           _login =
                               getData(controllerUser.text, controllerPass.text);
                           if (_login == true) {
-                            controllerPass.clear();
-                            controllerUser.clear();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Choferes(),
+                                builder: (context) => Choferes(
+                                    "", controllerUser.text.toString()),
                               ),
                             );
                           }

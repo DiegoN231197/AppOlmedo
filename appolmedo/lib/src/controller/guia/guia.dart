@@ -9,7 +9,18 @@ class Guia {
   final String region;
   final String patente;
   final String chofer;
+  final String estado;
 
-  Guia(this.numguia, this.rut, this.nombrecliente, this.numcontacto, this.fecha,
-      this.direccion, this.comuna, this.region, this.patente, this.chofer);
+  Guia(
+      this.numguia,
+      this.rut,
+      this.nombrecliente,
+      this.numcontacto,
+      this.fecha,
+      this.direccion,
+      this.comuna,
+      this.region,
+      this.patente,
+      this.chofer,
+      this.estado);
 }

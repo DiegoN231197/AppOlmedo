@@ -9,7 +9,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class ConfirmacionEntregas extends StatefulWidget {
-  ConfirmacionEntregas({Key? key}) : super(key: key);
+  final String patente;
+  final String fecha;
+  ConfirmacionEntregas(this.patente, this.fecha, {Key? key}) : super(key: key);
 
   @override
   _ConfirmacionEntregasState createState() => _ConfirmacionEntregasState();
@@ -28,10 +30,10 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   List guiasList = [];
 
   void getGuias() async {
-    CollectionReference choferesCollection =
+    CollectionReference guiasCollection =
         FirebaseFirestore.instance.collection("guias");
 
-    QuerySnapshot guias = await choferesCollection.get();
+    QuerySnapshot guias = await guiasCollection.get();
 
     if (guias.docs.length != 0) {
       for (var guia in guias.docs) {
@@ -41,7 +43,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     print(guiasList);
   }
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   bool getData(String idRef) {
     String id = idRef;
@@ -66,16 +68,16 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   }
 
   //casilla de texto grande para poner datos sobre la entrega
-  final controller = TextEditingController();
+  final _estadocontroller = TextEditingController();
   final _controllerNumGuia = TextEditingController();
 
   Widget mensajeEntrega() {
     return TextField(
-      controller: this.controller,
+      controller: this._estadocontroller,
       maxLines: 6,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
-        counterText: '${this.controller.text.split('').length} words',
+        counterText: '${this._estadocontroller.text.split('').length} words',
         border: const OutlineInputBorder(),
         hintText: "Ingrese detalle del motivo del estado de entrega",
       ),
@@ -215,8 +217,8 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                       if (_guia == true) {
                         cargarimagen(
                             horaActual(), fechaActual(), valoritem.valorestado);
-                        Route route =
-                            MaterialPageRoute(builder: (contex) => Choferes());
+                        Route route = MaterialPageRoute(
+                            builder: (contex) => Choferes(widget.fecha, ""));
                         Navigator.push(context, route);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -279,22 +281,27 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
 
     String url = await (await uploadTask).ref.getDownloadURL();
 
-    enviarimagen(url, horaEntrega, fechaEntrega, estadoEntrega);
-    Route route = MaterialPageRoute(builder: (contex) => Choferes());
+    enviarimagen(
+        url, horaEntrega, fechaEntrega, estadoEntrega, _estadocontroller.text);
+    Route route =
+        MaterialPageRoute(builder: (contex) => Choferes(widget.fecha, ""));
     Navigator.push(context, route);
   }
 
-  void enviarimagen(String url, String hora, String fecha, String estado) {
+  void enviarimagen(
+      String url, String hora, String fecha, String estado, String detalle) {
     String horaEntrega = hora;
     String fechaEntrega = fecha;
     String estadoEntrega = estado;
+    String detalleEstado = detalle;
     print("firestore -->" + url);
     FirebaseFirestore imgref = FirebaseFirestore.instance;
     imgref.collection('guias').doc(_controllerNumGuia.text).update({
       'estado': estadoEntrega,
       "imagen": url,
       'fechaEntrega': fechaEntrega,
-      'horaEntrega': horaEntrega
+      'horaEntrega': horaEntrega,
+      'detalle de entrega': detalleEstado
     });
     print("guia confirmada");
   }
