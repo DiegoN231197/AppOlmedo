@@ -40,8 +40,8 @@ class _ChoferesState extends State<Choferes> {
           actions: <Widget>[
             IconButton(
               onPressed: () {
-                Route route = MaterialPageRoute(
-                    builder: (contex) => Cerrarsesion(idRuta));
+                Route route =
+                    MaterialPageRoute(builder: (contex) => Cerrarsesion());
                 Navigator.push(context, route);
               },
               icon: const Icon(Icons.exit_to_app),

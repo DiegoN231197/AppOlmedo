@@ -8,7 +8,7 @@ class GuiaAcc {
   void guardarGuias(Guia guia) {
     guiasRef.collection('guias').doc(guia.numguia).set({
       "id": guia.numguia,
-      "rutCliente": guia.rut,
+      "rut": guia.rut,
       'nombre': guia.nombrecliente,
       'contacto': guia.numcontacto,
       'fecha': guia.fecha,
@@ -17,7 +17,7 @@ class GuiaAcc {
       'region': guia.region,
       'estado': "pendiente",
       'camion': guia.patente,
-      'rutChofer': guia.chofer
+      'chofer': guia.chofer
     });
   }
 }

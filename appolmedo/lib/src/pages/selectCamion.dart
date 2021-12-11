@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 import 'package:flutter/services.dart';
+import 'package:masked_text/masked_text.dart';
 
 class SelectCamion extends StatefulWidget {
   final camionAcc = CamionAcc();
@@ -111,6 +112,7 @@ class _SelectCamionState extends State<SelectCamion> {
                       },
                       controller: _controllerpatente,
                       textCapitalization: TextCapitalization.characters,
+                      maxLength: 6,
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         border: UnderlineInputBorder(),
@@ -125,6 +127,7 @@ class _SelectCamionState extends State<SelectCamion> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 20),
                 TextFormField(
                   validator: (value) {
