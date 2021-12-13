@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:appolmedo/src/pages/chofer_pages.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:masked_text/masked_text.dart';
 
 class Cerrarsesion extends StatefulWidget {
@@ -13,6 +14,8 @@ final _controllerPatFinal = TextEditingController();
 final _controllerOdoFinal = TextEditingController();
 final _controllerfechainicio = TextEditingController();
 
+GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 class _CerrarsesionState extends State<Cerrarsesion> {
   @override
   Widget build(BuildContext context) {
@@ -24,123 +27,162 @@ class _CerrarsesionState extends State<Cerrarsesion> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 35),
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              const SizedBox(height: 10),
-              new Text(
-                "Para cerrar sesión ingrese los siguientes datos",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.orange[600],
-                    fontFamily: 'Sansation',
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(height: 20),
-              //casilla patente
-              TextFormField(
-                controller: _controllerPatFinal,
-                textCapitalization: TextCapitalization.characters,
-                maxLength: 6,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.car_repair_rounded,
-                    color: Colors.black,
-                  ),
-                  labelText: "Camión utilizado",
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                const SizedBox(height: 10),
+                new Text(
+                  "Para cerrar sesión ingrese los siguientes datos",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.orange[600],
+                      fontFamily: 'Sansation',
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold),
                 ),
-              ),
-              const SizedBox(height: 20),
-              //fecha inicio
-              new MaskedTextField(
-                maskedTextFieldController: _controllerfechainicio,
-                mask: "xx-xx-xxxx",
-                maxLength: 10,
-                keyboardType: TextInputType.datetime,
-                inputDecoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.date_range_outlined,
-                    color: Colors.black,
-                  ),
-                  labelText: "Fecha toma de camión",
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.date_range,
-                    color: Colors.black,
+                const SizedBox(height: 20),
+                //casilla patente
+                TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return '*Requerido';
+                    } else {
+                      return null;
+                    }
+                  },
+                  controller: _controllerPatFinal,
+                  textCapitalization: TextCapitalization.characters,
+                  maxLength: 6,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.car_repair_rounded,
+                      color: Colors.black,
+                    ),
+                    labelText: "Camión utilizado",
                   ),
-                  labelText: "Fecha de entrega de camión",
                 ),
-                initialValue: fechaActual(),
-                keyboardType: TextInputType.datetime,
-              ),
-              const SizedBox(height: 20),
-              //casilla hora de entrega
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.timer,
-                    color: Colors.black,
+                const SizedBox(height: 10),
+                //fecha inicio
+                new MaskedTextField(
+                  maskedTextFieldController: _controllerfechainicio,
+                  mask: "xx-xx-xxxx",
+                  maxLength: 10,
+                  keyboardType: TextInputType.datetime,
+                  inputDecoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.date_range_outlined,
+                      color: Colors.black,
+                    ),
+                    labelText: "Fecha toma de camión",
                   ),
-                  labelText: "Hora de entrega",
                 ),
-                initialValue: horaActual(),
-                keyboardType: TextInputType.datetime,
-              ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.date_range,
+                      color: Colors.black,
+                    ),
+                    labelText: "Fecha de entrega de camión",
+                  ),
+                  initialValue: fechaActual(),
+                  keyboardType: TextInputType.datetime,
+                ),
+                const SizedBox(height: 20),
+                //casilla hora de entrega
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.timer,
+                      color: Colors.black,
+                    ),
+                    labelText: "Hora de entrega",
+                  ),
+                  initialValue: horaActual(),
+                  keyboardType: TextInputType.datetime,
+                ),
 
-              //casilla odometro
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _controllerOdoFinal,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(
-                    Icons.local_shipping,
-                    color: Colors.black,
+                //casilla odometro
+                const SizedBox(height: 20),
+                TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return '*Requerido';
+                    } else {
+                      return null;
+                    }
+                  },
+                  controller: _controllerOdoFinal,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                    icon: Icon(
+                      Icons.local_shipping,
+                      color: Colors.black,
+                    ),
+                    labelText: "Odometro final del camión",
+                    hintText: "KM: ",
                   ),
-                  labelText: "Odometro final del camión",
-                  hintText: "KM: ",
+                  keyboardType: TextInputType.number,
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 20),
-              mensajeDetalle(),
-              const SizedBox(height: 20),
-              new MaterialButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/login');
-                  _controllerOdoFinal.clear();
-                  _controllerPatFinal.clear();
-                  _controllerfechainicio.clear();
-                  detallecontroller.clear();
-                },
-                height: 40,
-                minWidth: 60,
-                child: Text("Enviar y cerrar sesión",
-                    style: TextStyle(fontSize: 20)),
-                color: Colors.orange[600],
-                splashColor: Colors.blue,
-                textColor: Colors.white,
-              ),
-            ],
+                const SizedBox(height: 20),
+                mensajeDetalle(),
+                const SizedBox(height: 20),
+                new MaterialButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      finalizarRuta(
+                          _controllerOdoFinal.text,
+                          _controllerPatFinal.text,
+                          detallecontroller.text,
+                          _controllerfechainicio.text);
+                      Navigator.pushReplacementNamed(context, '/login');
+                      _controllerOdoFinal.clear();
+                      _controllerPatFinal.clear();
+                      _controllerfechainicio.clear();
+                      detallecontroller.clear();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.blueGrey.shade600,
+                          content: Text(
+                            "Ingrese todos los datos",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  height: 40,
+                  minWidth: 60,
+                  child: Text("Enviar y cerrar sesión",
+                      style: TextStyle(fontSize: 20)),
+                  color: Colors.orange[600],
+                  splashColor: Colors.blue,
+                  textColor: Colors.white,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -176,5 +218,26 @@ class _CerrarsesionState extends State<Cerrarsesion> {
     var now = new DateTime.now();
     var hora = (now.hour.toString() + ":" + now.minute.toString());
     return hora;
+  }
+
+  void finalizarRuta(
+      String odometro, String patente, String datos, String fechainicial) {
+    String odometroFinal = odometro;
+    String patenteCamion = patente;
+    String datosRuta = datos;
+    String idRuta = fechainicial;
+
+    FirebaseFirestore ref = FirebaseFirestore.instance;
+    ref
+        .collection('camiones')
+        .doc(patenteCamion)
+        .collection('historial')
+        .doc(idRuta + patenteCamion)
+        .update({
+      'odometro final': odometroFinal,
+      'fecha final': fechaActual(),
+      'Hora de entrega': horaActual(),
+      'detalles ruta': datosRuta
+    });
   }
 }

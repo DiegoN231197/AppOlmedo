@@ -10,7 +10,7 @@ class GuiaAcc {
       "id": guia.numguia,
       "rut": guia.rut,
       'nombre': guia.nombrecliente,
-      'contacto': guia.numcontacto,
+      'contacto': "+56 " + guia.numcontacto,
       'fecha': guia.fecha,
       'direccion': guia.direccion,
       'comuna': guia.comuna,
