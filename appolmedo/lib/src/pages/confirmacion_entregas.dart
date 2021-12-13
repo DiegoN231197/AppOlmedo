@@ -124,7 +124,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                       Icons.content_paste,
                       color: Colors.black,
                     ),
-                    labelText: "Número de guía",
+                    labelText: "Número de guía o factura",
                   ),
                   keyboardType: TextInputType.number,
                 ),
@@ -170,7 +170,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                       fontWeight: FontWeight.bold),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 DropdownButton(
                   elevation: 30,
                   iconSize: 30,
@@ -192,13 +192,13 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
 
                 Center(
                   child: IconButton(
-                    iconSize: 32.0,
-                    icon: const Icon(Icons.attach_file),
-                    tooltip: 'Adjuntar imágen',
+                    iconSize: 40.0,
+                    icon: const Icon(Icons.add_a_photo),
+                    tooltip: 'Adjuntar imagen',
                     onPressed: _opcionesadjuntar,
                   ),
                 ),
-                Text("Adjuntar imágen"),
+                Text("Adjuntar imagen"),
                 const SizedBox(height: 20),
 
                 //condicion para que aparezca la imagen cuando se selecciona una debajo del boton de adjuntar

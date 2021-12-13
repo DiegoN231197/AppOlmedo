@@ -4,58 +4,35 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ListadoRutas extends StatefulWidget {
-  ListadoRutas({Key? key}) : super(key: key);
+  final List guias;
+  ListadoRutas(this.guias, {Key? key}) : super(key: key);
 
   @override
   _ListadoRutasState createState() => _ListadoRutasState();
 }
 
 class _ListadoRutasState extends State<ListadoRutas> {
-  List guiasList = [];
-
-  void getGuias() async {
-    CollectionReference guiasCollection =
-        FirebaseFirestore.instance.collection("guias");
-
-    QuerySnapshot guias = await guiasCollection.get();
-
-    if (guias.docs.length != 0) {
-      for (var guia in guias.docs) {
-        guiasList.add(guia.data());
-      }
-    }
-  }
-
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
-    //guiasList.clear();
-
-    print(guiasList.length);
-    getGuias();
+    print(widget.guias.length);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[600],
         title: Text("Listado de Guías generadas"),
       ),
       body: ListView.builder(
-        itemCount: guiasList.length,
-        itemBuilder: (BuildContext context, int i) {
-          if (guiasList.length == 0) {
-            return MaterialButton(
-              color: Colors.amber,
-              height: 50,
-              child: Text("VER LISTA"),
-              onPressed: () => {setState(() {})},
-            );
+        itemCount: widget.guias.length,
+        itemBuilder: (context, i) {
+          Map<String, dynamic> guiass =
+              new Map<String, dynamic>.from(widget.guias[i]);
+          if (i == 0) {
+            return guia(guiass['id'], guiass['estado'], guiass['contacto'],
+                guiass['nombre'], guiass['direccion']);
           } else {
-            return guia(
-                guiasList[i]['id'],
-                guiasList[i]['estado'],
-                guiasList[i]['contacto'],
-                guiasList[i]['nombre'],
-                guiasList[i]['direccion']);
+            return guia(guiass['id'], guiass['estado'], guiass['contacto'],
+                guiass['nombre'], guiass['direccion']);
           }
         },
       ),

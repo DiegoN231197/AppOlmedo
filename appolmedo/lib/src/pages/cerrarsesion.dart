@@ -14,6 +14,37 @@ final _controllerPatFinal = TextEditingController();
 final _controllerOdoFinal = TextEditingController();
 final _controllerfechainicio = TextEditingController();
 
+List camionesList = [];
+bool _camion = false;
+
+void getCamion() async {
+  CollectionReference camionesCollection =
+      FirebaseFirestore.instance.collection("camiones");
+
+  QuerySnapshot camiones = await camionesCollection.get();
+
+  if (camiones.docs.length != 0) {
+    for (var camion in camiones.docs) {
+      camionesList.add(camion.data());
+    }
+  }
+  print(camionesList);
+}
+
+bool getData(String idRef) {
+  String id = idRef;
+  bool esIgual = false;
+
+  for (int i = 0; i < camionesList.length; i++) {
+    if ((camionesList[i]['patente'] == id)) {
+      print("validate");
+      esIgual = true;
+      i = camionesList.length;
+    }
+  }
+  return esIgual;
+}
+
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class _CerrarsesionState extends State<Cerrarsesion> {
@@ -146,16 +177,34 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                 new MaterialButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      finalizarRuta(
-                          _controllerOdoFinal.text,
-                          _controllerPatFinal.text,
-                          detallecontroller.text,
-                          _controllerfechainicio.text);
-                      Navigator.pushReplacementNamed(context, '/login');
-                      _controllerOdoFinal.clear();
-                      _controllerPatFinal.clear();
-                      _controllerfechainicio.clear();
-                      detallecontroller.clear();
+                      _camion = getData(_controllerPatFinal.text);
+                      if (_camion == true) {
+                        finalizarRuta(
+                            _controllerOdoFinal.text,
+                            _controllerPatFinal.text,
+                            detallecontroller.text,
+                            _controllerfechainicio.text);
+                        Navigator.pushReplacementNamed(context, '/login');
+                        _controllerOdoFinal.clear();
+                        _controllerPatFinal.clear();
+                        _controllerfechainicio.clear();
+                        detallecontroller.clear();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.blueGrey.shade600,
+                            content: Text(
+                              "Patente no encontrada",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

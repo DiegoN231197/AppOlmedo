@@ -1,6 +1,7 @@
 import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 import 'package:appolmedo/src/pages/cerrarsesion.dart';
 import 'package:appolmedo/src/pages/selectCamion.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:appolmedo/src/pages/listado_rutas.dart';
@@ -22,14 +23,27 @@ class Choferes extends StatefulWidget {
 }
 
 class _ChoferesState extends State<Choferes> {
-  //Future TextEditingController _lista = TextEditingController();
+  List guiasList = [];
+  //obtener Guías para poder ver cada una de ellas en la opción ver guías
+  void getGuias() async {
+    CollectionReference guiasCollection =
+        FirebaseFirestore.instance.collection("guias");
+
+    QuerySnapshot guias = await guiasCollection.get();
+
+    if (guias.docs.length != 0) {
+      for (var guia in guias.docs) {
+        guiasList.add(guia.data());
+      }
+    }
+  }
 
   var patentes = ["Lista de camiones"];
   @override
   Widget build(BuildContext context) {
     //String idRuta = widget.fecha;
-    print("chofer");
-    print(widget.rutChofer);
+    guiasList.clear();
+    getGuias();
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -80,7 +94,7 @@ class _ChoferesState extends State<Choferes> {
                 color: Colors.orange[600],
                 onPressed: () {
                   Route route = MaterialPageRoute(
-                    builder: (contex) => ListadoRutas(),
+                    builder: (contex) => ListadoRutas(guiasList),
                   );
                   Navigator.push(context, route);
                 },
