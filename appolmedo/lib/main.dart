@@ -253,13 +253,28 @@ class _LoginPageState extends State<LoginPage> {
                                     "", controllerUser.text.toString()),
                               ),
                             );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.blueGrey.shade600,
+                                content: Text(
+                                  "Datos Incorrectos",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               backgroundColor: Colors.blueGrey.shade600,
                               content: Text(
-                                "Datos Incorrectos",
+                                "Ingrese los datos",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,

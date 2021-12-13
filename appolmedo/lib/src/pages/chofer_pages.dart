@@ -27,7 +27,7 @@ class _ChoferesState extends State<Choferes> {
   var patentes = ["Lista de camiones"];
   @override
   Widget build(BuildContext context) {
-    String idRuta = widget.fecha;
+    //String idRuta = widget.fecha;
     print("chofer");
     print(widget.rutChofer);
     return new WillPopScope(
@@ -73,16 +73,16 @@ class _ChoferesState extends State<Choferes> {
                 height: 50.0,
                 minWidth: 300,
                 child: Text(
-                  "Listado Rutas",
+                  "Listado Guías",
                   style: TextStyle(fontSize: 25),
                 ),
                 textColor: Colors.white,
                 color: Colors.orange[600],
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (contex) => ListadoRutas()),
-                  ),
+                onPressed: () {
+                  Route route = MaterialPageRoute(
+                    builder: (contex) => ListadoRutas(),
+                  );
+                  Navigator.push(context, route);
                 },
                 splashColor: Colors.blue,
                 shape: RoundedRectangleBorder(

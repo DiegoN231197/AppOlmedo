@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 import 'package:flutter/services.dart';
-import 'package:masked_text/masked_text.dart';
+//import 'package:masked_text/masked_text.dart';
 
 class SelectCamion extends StatefulWidget {
   final camionAcc = CamionAcc();
@@ -59,6 +59,7 @@ class _SelectCamionState extends State<SelectCamion> {
   Widget build(BuildContext context) {
     camionesList.clear();
     getCamion();
+
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.orange[600],

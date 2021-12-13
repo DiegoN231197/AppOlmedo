@@ -1,4 +1,4 @@
-import 'package:appolmedo/src/controller/guia/guia_widget.dart';
+//import 'package:appolmedo/src/controller/guia/guia_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -24,74 +24,102 @@ class _ListadoRutasState extends State<ListadoRutas> {
         guiasList.add(guia.data());
       }
     }
-    print("------------------Lista Guias--------------------");
-    print(guiasList);
   }
 
-  /* dynamic getGuia() {
-    //guiasList.clear();
-    print("recorrido");
-    print(guiasList);
-    if (guiasList.length != 0) {
-      for (int i = 0; i < guiasList.length; i++) {
-        print(guiasList[i]['id']);
-        return GuiaWidget(guiasList[i]['id'], guiasList[i]['estado']);
-      }
-      return GuiaWidget("8", "LISTO");
-    } else {
-      return Expanded(
-        child: Container(
-          alignment: Alignment.center,
-          child: Text("no se han ingresado guías"),
-        ),
-      );
-    }
-  } */
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     //guiasList.clear();
+
+    print(guiasList.length);
     getGuias();
-    /* return Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.orange[600],
-        title: Text("Listado de rutas generadas"),
-      ),
-      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            "Rutas del día",
-            style: TextStyle(
-                fontSize: 30,
-                color: Colors.orange[600],
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-        const SizedBox(height: 20),
-        getGuia(),
-      ]),
-    ); */
-    print("guias");
-    print(guiasList);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[600],
-        title: Text("Listado de rutas generadas"),
+        title: Text("Listado de Guías generadas"),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(16.0),
+        itemCount: guiasList.length,
         itemBuilder: (BuildContext context, int i) {
-          if (i.isOdd) return const Divider();
-          if (guiasList.length != 0) {
-            final index = i ~/ 2 + 1;
-            return GuiaWidget(
-                guiasList[index]['id'].toString(), guiasList[index]['estado']);
+          if (guiasList.length == 0) {
+            return MaterialButton(
+              color: Colors.amber,
+              height: 50,
+              child: Text("VER LISTA"),
+              onPressed: () => {setState(() {})},
+            );
           } else {
-            return Text("error");
+            return guia(
+                guiasList[i]['id'],
+                guiasList[i]['estado'],
+                guiasList[i]['contacto'],
+                guiasList[i]['nombre'],
+                guiasList[i]['direccion']);
           }
         },
+      ),
+    );
+  }
+
+  Widget guia(String id, String estadoguia, String estadotelefono,
+      String estadonombre, String estadodireccion) {
+    String numguia = id;
+    String estado = estadoguia;
+    String telefono = estadotelefono;
+    String nombre = estadonombre;
+    String direccion = estadodireccion;
+
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[350]!,
+            blurRadius: 2.0,
+            offset: Offset(0, 1.0),
+          ),
+        ],
+        border: Border.all(color: Colors.orange),
+        borderRadius: BorderRadius.circular(50),
+        color: Colors.orange[200],
+      ),
+      child: MaterialButton(
+        onPressed: () => {},
+        padding: const EdgeInsets.only(left: 15),
+        child: Wrap(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(5),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Guía: " + numguia.toString()),
+                      Text("N contacto: " + telefono),
+                      Text("Cliente: " + nombre),
+                      Text("Dirección: " + direccion),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text("Estado de entrega"),
+                      Text(estado),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
