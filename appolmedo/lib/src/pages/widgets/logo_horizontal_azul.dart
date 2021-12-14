@@ -11,8 +11,6 @@ class LogoAzulWidget extends StatefulWidget {
 class _LogoAzulWidgetState extends State<LogoAzulWidget> {
   @override
   Widget build(BuildContext context) {
-    // Figma Flutter Generator LogoencabezadoWidget - COMPONENT
-
     return SizedBox(
       width: 300,
       height: 150,

@@ -1,6 +1,4 @@
-//import 'package:appolmedo/src/controller/guia/guia_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 
 class ListadoRutas extends StatefulWidget {
@@ -39,6 +37,13 @@ class _ListadoRutasState extends State<ListadoRutas> {
     );
   }
 
+  ///Widget para mostrar datos de una guía
+  ///@param [id] parámetro correspondiente al id de la guía
+  ///@param [estadoguia] parámetro correspondiente al estado de una guía
+  ///@param [estadotelefono] parámetro correspondiente es teléfono de contacto del cliente
+  ///@param [estadonombre] parámetro correspondiente al nombre del cliente
+  ///@param [estadodireccion] parámetro correspondiente a la dirección del cliente
+  ///@return [Widget] widget generado
   Widget guia(String id, String estadoguia, String estadotelefono,
       String estadonombre, String estadodireccion) {
     String numguia = id;

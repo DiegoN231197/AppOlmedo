@@ -1,6 +1,4 @@
-//import 'dart:html';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +6,7 @@ import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+///Clase correspondiente a la confirmación de las entregas
 class ConfirmacionEntregas extends StatefulWidget {
   final String patente;
   final String fecha;
@@ -24,27 +23,26 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
   //Opciones lista ESTADO ENTREGA
   var estado = ["Entregado", "Parcialmente Entregado", "No entregado"];
   String lista = "Estado de entrega";
-
   bool _guia = false;
-
   List guiasList = [];
+  final _estadocontroller = TextEditingController();
+  final _controllerNumGuia = TextEditingController();
 
+  ///Función para obtener guías ingresadas en la base de datos
   void getGuias() async {
     CollectionReference guiasCollection =
         FirebaseFirestore.instance.collection("guias");
-
     QuerySnapshot guias = await guiasCollection.get();
-
     if (guias.docs.length != 0) {
       for (var guia in guias.docs) {
         guiasList.add(guia.data());
       }
     }
-    print(guiasList);
   }
 
-  //FirebaseFirestore firestore = FirebaseFirestore.instance;
-
+  ///Función para comparar si se encuentra la guía en la lista
+  ///@param [idRef] argumento para comparar id de guía en guiasList
+  ///@return [esIgual] booleano, si encuentra la guía true, sino false
   bool getData(String idRef) {
     String id = idRef;
     bool esIgual = false;
@@ -57,32 +55,6 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
       }
     }
     return esIgual;
-  }
-
-  Widget estados(Color color) {
-    return Container(
-      height: 10,
-      width: 10,
-      color: color,
-    );
-  }
-
-  //casilla de texto grande para poner datos sobre la entrega
-  final _estadocontroller = TextEditingController();
-  final _controllerNumGuia = TextEditingController();
-
-  Widget mensajeEntrega() {
-    return TextField(
-      controller: this._estadocontroller,
-      maxLines: 6,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        counterText: '${this._estadocontroller.text.split('').length} words',
-        border: const OutlineInputBorder(),
-        hintText: "Ingrese detalle del motivo del estado de entrega",
-      ),
-      onChanged: (text) => setState(() {}),
-    );
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -107,7 +79,6 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 const SizedBox(height: 20),
-                //casilla n° guia
                 TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -129,7 +100,6 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 20),
-                //casilla fecha de entrega
                 TextFormField(
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
@@ -143,9 +113,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                   initialValue: fechaActual(),
                   keyboardType: TextInputType.datetime,
                 ),
-
                 const SizedBox(height: 20),
-                //casilla hora de entrega
                 TextFormField(
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
@@ -159,7 +127,6 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                   initialValue: horaActual(),
                   keyboardType: TextInputType.datetime,
                 ),
-
                 const SizedBox(height: 20),
                 Text(
                   "Estado de la entrega",
@@ -169,7 +136,6 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold),
                 ),
-
                 const SizedBox(height: 10),
                 DropdownButton(
                   elevation: 30,
@@ -189,7 +155,6 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                 if (valoritem.valorestado == "Parcialmente Entregado" ||
                     valoritem.valorestado == "No entregado")
                   mensajeEntrega(),
-
                 Center(
                   child: IconButton(
                     iconSize: 40.0,
@@ -200,18 +165,13 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
                 ),
                 Text("Adjuntar imagen"),
                 const SizedBox(height: 20),
-
-                //condicion para que aparezca la imagen cuando se selecciona una debajo del boton de adjuntar
                 if (this._imageFile == null)
                   Center()
                 else
                   Image.file(this._imageFile!),
-
                 const SizedBox(height: 20),
-                //boton enviar info
                 new MaterialButton(
                   onPressed: () {
-                    //final guia = Guia(numguia, rut, nombrecliente, numcontacto, fecha, direccion, comuna, region)
                     if (formKey.currentState!.validate()) {
                       _guia = getData(_controllerNumGuia.text);
                       if (_guia == true) {
@@ -270,6 +230,25 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     );
   }
 
+  ///Widget para mostrar la casilla para ingresar detalles de la entrega
+  Widget mensajeEntrega() {
+    return TextField(
+      controller: this._estadocontroller,
+      maxLines: 6,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        counterText: '${this._estadocontroller.text.split('').length} words',
+        border: const OutlineInputBorder(),
+        hintText: "Ingrese detalle del motivo del estado de entrega",
+      ),
+      onChanged: (text) => setState(() {}),
+    );
+  }
+
+  ///Función para actualizar los datos de confirmación de una guía con la imagen
+  ///@param [hora] parámetro correspondiente a la hora de entrega de una guía
+  ///@param [fecha] parámetro correspondiente a la fecha de entrega de una guía
+  ///@param [estado] parámetro correspondiente al estado de la entrega
   void cargarimagen(String hora, String fecha, String estado) async {
     String horaEntrega = hora;
     String fechaEntrega = fecha;
@@ -278,9 +257,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     Reference ref = storage.ref().child("/imagenes");
     UploadTask uploadTask =
         ref.child(_controllerNumGuia.text + ".jpg").putFile(_imageFile!);
-
     String url = await (await uploadTask).ref.getDownloadURL();
-
     enviarimagen(
         url, horaEntrega, fechaEntrega, estadoEntrega, _estadocontroller.text);
     Route route =
@@ -288,13 +265,19 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     Navigator.push(context, route);
   }
 
+  ///Función para actualizar los datos de confirmación de una guía
+  ///@param [url] parámetro de url de la imagen
+  ///@param [hora] parámetro correspondiente a la hora de entrega de una guía
+  ///@param [fecha] parámetro correspondiente a la fecha de entrega de una guía
+  ///@param [estado] parámetro correspondiente al estado de la entrega
+  ///@param [detalle] parámetro correspondiete al detalle de la entrega
   void enviarimagen(
       String url, String hora, String fecha, String estado, String detalle) {
     String horaEntrega = hora;
     String fechaEntrega = fecha;
     String estadoEntrega = estado;
     String detalleEstado = detalle;
-    print("firestore -->" + url);
+
     FirebaseFirestore imgref = FirebaseFirestore.instance;
     imgref.collection('guias').doc(_controllerNumGuia.text).update({
       'estado': estadoEntrega,
@@ -303,11 +286,9 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
       'horaEntrega': horaEntrega,
       'detalle de entrega': detalleEstado
     });
-    print("guia confirmada");
   }
 
   //Función que arroja opciones al apretar el botón de adjuntar imagen
-
   Future<void> _opcionesadjuntar() {
     return showDialog(
         context: context,
@@ -331,8 +312,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
         });
   }
 
-  //Funciones para escoger imágen o utilizar la cámara
-
+  //Funciones para escoger imágen desde la galería
   Future<void> _imagengaleria() async {
     final pickedfile = await _picker.pickImage(source: ImageSource.gallery);
     Navigator.pop(context);
@@ -341,6 +321,7 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     }
   }
 
+  //Funciones para tomar imágen desde la camara
   Future<void> _imagencamara() async {
     final pickedfile = await _picker.pickImage(source: ImageSource.camera);
     Navigator.pop(context);
@@ -349,16 +330,20 @@ class _ConfirmacionEntregasState extends State<ConfirmacionEntregas> {
     }
   }
 
+  ///Función para obtener la fecha actual
+  ///@return [dato] hora actual como String
   String fechaActual() {
     var now = new DateTime.now();
     var dato = (now.day.toString() +
-        "/" +
+        "-" +
         now.month.toString() +
-        "/" +
+        "-" +
         now.year.toString());
     return dato;
   }
 
+  ///Función para obtener la hora actual
+  ///@return [hora] hora actual como String
   String horaActual() {
     var now = new DateTime.now();
     var hora = (now.hour.toString() + ":" + now.minute.toString());

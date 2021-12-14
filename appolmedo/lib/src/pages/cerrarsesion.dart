@@ -17,6 +17,7 @@ final _controllerfechainicio = TextEditingController();
 List camionesList = [];
 bool _camion = false;
 
+///Función para obtener las patentes de los camiones
 void getCamion() async {
   CollectionReference camionesCollection =
       FirebaseFirestore.instance.collection("camiones");
@@ -31,6 +32,9 @@ void getCamion() async {
   print(camionesList);
 }
 
+///Función para comparar si se encuentra la patente en la lista
+///@param [idRef] argumento para comparar patente en camionesList
+///@return [esIgual] booleano, si encuentra la patente true, sino false
 bool getData(String idRef) {
   String id = idRef;
   bool esIgual = false;
@@ -79,7 +83,6 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                   height: 10,
                 ),
                 const SizedBox(height: 20),
-                //casilla patente
                 TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -102,7 +105,6 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                //fecha inicio
                 new MaskedTextField(
                   maskedTextFieldController: _controllerfechainicio,
                   mask: "xx-xx-xxxx",
@@ -133,7 +135,6 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                   keyboardType: TextInputType.datetime,
                 ),
                 const SizedBox(height: 20),
-                //casilla hora de entrega
                 TextFormField(
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
@@ -147,8 +148,6 @@ class _CerrarsesionState extends State<Cerrarsesion> {
                   initialValue: horaActual(),
                   keyboardType: TextInputType.datetime,
                 ),
-
-                //casilla odometro
                 const SizedBox(height: 20),
                 TextFormField(
                   validator: (value) {
@@ -239,6 +238,8 @@ class _CerrarsesionState extends State<Cerrarsesion> {
   }
 
   final detallecontroller = TextEditingController();
+
+  ///Widget para generar casilla en donde escribe el detalle de la ruta
   Widget mensajeDetalle() {
     return TextField(
       controller: this.detallecontroller,
@@ -253,6 +254,8 @@ class _CerrarsesionState extends State<Cerrarsesion> {
     );
   }
 
+  ///Función para obtener la fecha actual
+  ///@return [dato] fecha actual como String
   String fechaActual() {
     var now = new DateTime.now();
     var dato = (now.day.toString() +
@@ -263,12 +266,19 @@ class _CerrarsesionState extends State<Cerrarsesion> {
     return dato;
   }
 
+  ///Función para obtener la hora actual
+  ///@return [hora] hora actual como String
   String horaActual() {
     var now = new DateTime.now();
     var hora = (now.hour.toString() + ":" + now.minute.toString());
     return hora;
   }
 
+  ///Función para finalizar una ruta, donde se actualizan los datos de la ruta de un camion
+  ///@param [odometro] parametro correspondiente al odómetro final del camión
+  ///@param [patente] parámetro correspondiente a la patente de un camión
+  ///@param [datos] parámetro correspondiente a los datos de la ruta
+  ///@param [fechainicial] parámetro correspondiente a la fecha de inicio de la ruta
   void finalizarRuta(
       String odometro, String patente, String datos, String fechainicial) {
     String odometroFinal = odometro;

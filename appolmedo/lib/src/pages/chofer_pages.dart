@@ -1,30 +1,27 @@
-import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 import 'package:appolmedo/src/pages/cerrarsesion.dart';
 import 'package:appolmedo/src/pages/selectCamion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:appolmedo/src/pages/listado_rutas.dart';
-
 import 'widgets/logo_horizontal_azul.dart';
 
-//Clase que se encarga de la vista o página del chofer, en donde tendrá su menu y funciones
-
+///Clase que se encarga de la vista o página del chofer, en donde tendrá su menu y funciones
 // ignore: must_be_immutable
 class Choferes extends StatefulWidget {
   String fecha;
   String rutChofer;
   Choferes(this.fecha, this.rutChofer, {Key? key}) : super(key: key);
 
-  final camionAcc = CamionAcc();
-
   @override
   _ChoferesState createState() => _ChoferesState();
 }
 
 class _ChoferesState extends State<Choferes> {
+  var patentes = ["Lista de camiones"];
   List guiasList = [];
-  //obtener Guías para poder ver cada una de ellas en la opción ver guías
+
+  //Función para obtener Guías ingresadas en la base de datos
   void getGuias() async {
     CollectionReference guiasCollection =
         FirebaseFirestore.instance.collection("guias");
@@ -38,10 +35,8 @@ class _ChoferesState extends State<Choferes> {
     }
   }
 
-  var patentes = ["Lista de camiones"];
   @override
   Widget build(BuildContext context) {
-    //String idRuta = widget.fecha;
     guiasList.clear();
     getGuias();
     return new WillPopScope(
@@ -62,9 +57,6 @@ class _ChoferesState extends State<Choferes> {
             ),
           ],
         ),
-
-        //body botones opciones chofer
-
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -104,7 +96,6 @@ class _ChoferesState extends State<Choferes> {
                 ),
               ),
               const SizedBox(height: 30),
-              //_getListaCamiones(),
               new MaterialButton(
                 height: 50.0,
                 minWidth: 300,
@@ -118,7 +109,6 @@ class _ChoferesState extends State<Choferes> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 onPressed: () {
-                  //verpatentes();
                   Route route = MaterialPageRoute(
                       builder: (contex) => SelectCamion(widget.rutChofer));
                   Navigator.push(context, route);

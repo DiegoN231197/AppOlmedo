@@ -2,14 +2,10 @@ import 'dart:core';
 import 'package:appolmedo/src/pages/datosruta.dart';
 import 'package:appolmedo/src/pages/widgets/logo_horizontal_azul.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
-import 'package:appolmedo/src/controller/camion/camion_acc.dart';
 import 'package:flutter/services.dart';
-//import 'package:masked_text/masked_text.dart';
 
 class SelectCamion extends StatefulWidget {
-  final camionAcc = CamionAcc();
   final String rutChofer;
 
   SelectCamion(this.rutChofer, {Key? key}) : super(key: key);
@@ -27,6 +23,7 @@ class _SelectCamionState extends State<SelectCamion> {
   List camionesList = [];
   bool _camion = false;
 
+  ///Función para obtener los camiones ingresadas en la base de datos
   void getCamion() async {
     CollectionReference camionesCollection =
         FirebaseFirestore.instance.collection("camiones");
@@ -41,6 +38,9 @@ class _SelectCamionState extends State<SelectCamion> {
     print(camionesList);
   }
 
+  ///Función para comparar si se encuentra la patente en la lista
+  ///@param [idRef] argumento para comparar patente en camionesList
+  ///@return [esIgual] booleano, si encuentra la patente true, sino false
   bool getData(String idRef) {
     String id = idRef;
     bool esIgual = false;
@@ -86,8 +86,6 @@ class _SelectCamionState extends State<SelectCamion> {
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold),
                 ),
-
-                //lista de patentes
                 const SizedBox(height: 30),
                 Card(
                   elevation: 10.0,
@@ -128,7 +126,6 @@ class _SelectCamionState extends State<SelectCamion> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 TextFormField(
                   validator: (value) {
@@ -152,8 +149,6 @@ class _SelectCamionState extends State<SelectCamion> {
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 30),
-
-                //boton continuar
                 new MaterialButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
@@ -223,12 +218,13 @@ class _SelectCamionState extends State<SelectCamion> {
     );
   }
 
+  ///Función para guardar datos ingresados al iniciar una ruta
+  ///@param [odometro] parámetro correspondiente al odometro inicial del camión
+  ///@param [patente] parámetro correspondiente a la patente de un camión
   void iniciarRuta(String odometro, String patente) {
     String odometroInicial = odometro;
     String patenteCamion = patente;
-
     String fecha = fechaActual();
-
     FirebaseFirestore ref = FirebaseFirestore.instance;
     ref
         .collection('camiones')

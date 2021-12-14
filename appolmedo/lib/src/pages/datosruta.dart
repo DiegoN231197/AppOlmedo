@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:appolmedo/src/controller/guia/guia.dart';
 import 'package:appolmedo/src/controller/guia/guia_acc.dart';
-//import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -51,8 +50,6 @@ class _DatosrutaState extends State<Datosruta> {
   @override
   Widget build(BuildContext context) {
     String idRuta = widget.fecha;
-
-    print(widget.rutChofer);
     return new WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -103,7 +100,6 @@ class _DatosrutaState extends State<Datosruta> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  //casilla n° guia
                   TextFormField(
                     controller: _controllernumguia,
                     decoration: const InputDecoration(
@@ -118,7 +114,6 @@ class _DatosrutaState extends State<Datosruta> {
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
-                  //casilla rut
                   TextFormField(
                     controller: _controllerrutcliente,
                     onChanged: onChangedApplyFormat,
@@ -137,7 +132,6 @@ class _DatosrutaState extends State<Datosruta> {
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
-                  //casilla de nombre
                   TextFormField(
                     controller: _controllernombre,
                     textCapitalization: TextCapitalization.words,
@@ -152,7 +146,6 @@ class _DatosrutaState extends State<Datosruta> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  //casilla n° de contacto
                   TextFormField(
                     controller: _controllernumero,
                     decoration: const InputDecoration(
@@ -168,7 +161,6 @@ class _DatosrutaState extends State<Datosruta> {
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
-                  //casilla fecha
                   TextFormField(
                     //controller: _controllerfecha,
                     decoration: const InputDecoration(
@@ -184,7 +176,6 @@ class _DatosrutaState extends State<Datosruta> {
                     keyboardType: TextInputType.datetime,
                   ),
                   const SizedBox(height: 20),
-                  //casilla de dirección
                   TextFormField(
                     controller: _controllerdireccion,
                     textCapitalization: TextCapitalization.words,
@@ -199,7 +190,6 @@ class _DatosrutaState extends State<Datosruta> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  //casilla de comuna
                   TextFormField(
                     controller: _controllerncomuna,
                     textCapitalization: TextCapitalization.words,
@@ -214,7 +204,6 @@ class _DatosrutaState extends State<Datosruta> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  //casilla de region
                   Row(
                     children: [
                       const SizedBox(width: 30),
@@ -240,7 +229,6 @@ class _DatosrutaState extends State<Datosruta> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  //boton generar ruta
                   Container(
                     child: Row(
                       children: [
@@ -261,17 +249,16 @@ class _DatosrutaState extends State<Datosruta> {
                                   widget.rutChofer,
                                   "");
                               GuiaAcc().guardarGuias(guia);
-
                               _controllernumguia.clear();
                               _controllerrutcliente.clear();
                               _controllernombre.clear();
                               _controllernumero.clear();
                               _controllerdireccion.clear();
                               _controllerncomuna.clear();
-
                               Route route = MaterialPageRoute(
-                                  builder: (contex) => Datosruta(
-                                      widget.patent, idRuta, widget.rutChofer));
+                                builder: (contex) => Datosruta(
+                                    widget.patent, idRuta, widget.rutChofer),
+                              );
                               Navigator.push(context, route);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -326,12 +313,15 @@ class _DatosrutaState extends State<Datosruta> {
     );
   }
 
-//llenado de puntos automaticos del rut
+  ///llenado de puntos automaticos del rut
+  ///@param [text] parámetro correspondiente al texto ingresado, que será formateado
   void onChangedApplyFormat(String text) {
     RUTValidator.formatFromTextController(_controllerrutcliente);
   }
 }
 
+///Función para obtener la fecha actual
+///@return [dato] fecha actual como String
 String fechaActual() {
   var now = new DateTime.now();
   var dato = (now.day.toString() +
@@ -342,6 +332,7 @@ String fechaActual() {
   return dato;
 }
 
+//clase para obtener la selección de región
 class Valoritem {
   static String valorregion = "";
 }

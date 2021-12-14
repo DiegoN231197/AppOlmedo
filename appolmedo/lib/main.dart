@@ -3,10 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:appolmedo/src/pages/chofer_pages.dart';
 import 'package:appolmedo/src/pages/olvido_contrase%C3%B1a.dart';
-//import 'package:appolmedo/src/pages/selectCamion.dart';
-//import 'package:appolmedo/src/pages/confirmacion_entregas.dart';
-//import 'package:appolmedo/src/pages/cerrarsesion.dart';
-//import 'package:appolmedo/src/controller/user/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,13 +19,6 @@ class AppOlmedo extends StatelessWidget {
         home: LoginPage(),
         routes: <String, WidgetBuilder>{
           '/login': (BuildContext context) => new LoginPage(),
-          //'/choferPages': (BuildContext context) => new Choferes("", ""),
-          //'/LoginPage': (BuildContext context) => LoginPage(),
-          //'/selectCamion': (BuildContext context) => new SelectCamion(),
-          //'/confirmacionEntregas': (BuildContext context) =>
-          //    new ConfirmacionEntregas("", ""),
-          //'/solicitud': (BuildContext context) => new Solicitud(),
-          //'/cerrarsesion': (BuildContext context) => new Cerrarsesion("", "")
         });
   }
 }
@@ -44,7 +33,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerUser = new TextEditingController();
   TextEditingController controllerPass = new TextEditingController();
-  //User userLogin = newObject();
 
   void initState() {
     super.initState();
@@ -52,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
 
   List choferesList = [];
 
+  /// función inicial para obtener los datos del chofer
   void getChofer() async {
     CollectionReference choferesCollection =
         FirebaseFirestore.instance.collection("choferes");
@@ -63,7 +52,6 @@ class _LoginPageState extends State<LoginPage> {
         choferesList.add(chofer.data());
       }
     }
-    print(choferesList);
   }
 
   bool _showPassword = false;
@@ -71,8 +59,10 @@ class _LoginPageState extends State<LoginPage> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  // función inicial para obtener los datos del chofer, despues
-  // hay que obtener una lista de los choferes e ir comprobando cada uno, quizás ahi usar clases
+  /// Función para comparar datos ingresados en login, con la lista generada en getChofer()
+  /// @param [name] argumento a comparar con datos ingresados en login
+  /// @param [password] argumento a comparar con datos ingresados en login
+  /// @return [esIgual] booleano, si es correcta la comparación, true
   bool getData(String name, String password) {
     String nombre = name;
     String contrasena = password;
@@ -81,7 +71,6 @@ class _LoginPageState extends State<LoginPage> {
     for (int i = 0; i < choferesList.length; i++) {
       if ((choferesList[i]['nombre'] == nombre) &&
           (choferesList[i]['contrasena'] == contrasena)) {
-        print("validate");
         esIgual = true;
         i = choferesList.length;
       }
@@ -89,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
     return esIgual;
   }
 
-  //llave para validar el Form
+  //llave para validar el Formulario
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -100,12 +89,10 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       body: Form(
         key: formKey,
-        //Fondo
         child: Container(
           decoration: new BoxDecoration(
             color: Colors.orange[700],
           ),
-          //Propiedades imagen de arriba
           child: Column(
             children: <Widget>[
               SizedBox(height: 50),
@@ -122,7 +109,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                //Propiedades de espacio de texto usuario
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 2,
@@ -161,10 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                           border: InputBorder.none,
                           hintText: "Usuario",
                         ),
-                        //keyboardType: TextInputType.number,
                       ),
                     ),
-                    //CONTAINER PASSWORD
                     Container(
                       width: MediaQuery.of(context).size.width / 1.15,
                       height: 50,
@@ -173,11 +157,12 @@ class _LoginPageState extends State<LoginPage> {
                         horizontal: 15,
                       ),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black, blurRadius: 5)
-                          ]),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black, blurRadius: 5)
+                        ],
+                      ),
                       child: TextFormField(
                         validator: (valor) {
                           if (valor!.isEmpty) {
