@@ -54,6 +54,7 @@ GlobalKey<FormState> formKey = GlobalKey<FormState>();
 class _CerrarsesionState extends State<Cerrarsesion> {
   @override
   Widget build(BuildContext context) {
+    getCamion();
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.orange[600],
